@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>test_my_float_assumptions (BeerTasting)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File test/test_bucket.rb, line 121</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_my_float_assumptions</span>
+    <span class="ruby-comment cmt"># this may look ridiculous but honestly there's code in brewit that depends on </span>
+    <span class="ruby-comment cmt"># this behaviour so I wanted to be certain Ruby floating points are behaving</span>
+    <span class="ruby-identifier">f</span>=<span class="ruby-value str">'10.6'</span>.<span class="ruby-identifier">to_f</span>
+    <span class="ruby-identifier">assert_equal</span> <span class="ruby-value">10.6</span>, <span class="ruby-identifier">f</span>
+    <span class="ruby-identifier">assert</span> <span class="ruby-identifier">f</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">10.6</span>
+    <span class="ruby-identifier">assert</span> <span class="ruby-identifier">f</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-value">10.6</span>
+    <span class="ruby-identifier">assert_equal</span> <span class="ruby-value">10.5</span>, <span class="ruby-identifier">f</span><span class="ruby-operator">-</span><span class="ruby-value">0</span><span class="ruby-value">.1</span>
+    <span class="ruby-identifier">assert_equal</span> <span class="ruby-value">10.7</span>, <span class="ruby-identifier">f</span><span class="ruby-operator">+</span><span class="ruby-value">0</span><span class="ruby-value">.1</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

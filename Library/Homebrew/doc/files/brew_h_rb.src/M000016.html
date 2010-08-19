@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>search_brews (brew.h.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File brew.h.rb, line 402</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">search_brews</span> <span class="ruby-identifier">text</span>
+  <span class="ruby-identifier">require</span> <span class="ruby-value str">&quot;formula&quot;</span>
+
+  <span class="ruby-keyword kw">return</span> <span class="ruby-constant">Formula</span>.<span class="ruby-identifier">names</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">text</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">empty?</span>
+
+  <span class="ruby-identifier">rx</span> = <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">text</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">%r{^/(.*)/$}</span>
+    <span class="ruby-constant">Regexp</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">$1</span>)
+  <span class="ruby-keyword kw">else</span>
+    <span class="ruby-node">/.*#{Regexp.escape text}.*/i</span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-identifier">aliases</span> = <span class="ruby-constant">Formula</span>.<span class="ruby-identifier">aliases</span>
+  <span class="ruby-identifier">results</span> = (<span class="ruby-constant">Formula</span>.<span class="ruby-identifier">names</span><span class="ruby-operator">+</span><span class="ruby-identifier">aliases</span>).<span class="ruby-identifier">grep</span> <span class="ruby-identifier">rx</span>
+
+  <span class="ruby-comment cmt"># Filter out aliases when the full name was also found</span>
+  <span class="ruby-identifier">results</span>.<span class="ruby-identifier">reject</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">alias_name</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">aliases</span>.<span class="ruby-identifier">include?</span> <span class="ruby-identifier">alias_name</span>
+      <span class="ruby-identifier">resolved_name</span> = (<span class="ruby-constant">HOMEBREW_REPOSITORY</span><span class="ruby-operator">+</span><span class="ruby-node">&quot;Library/Aliases/#{alias_name}&quot;</span>).<span class="ruby-identifier">readlink</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-value str">'.rb'</span>).<span class="ruby-identifier">to_s</span>
+      <span class="ruby-identifier">results</span>.<span class="ruby-identifier">include?</span> <span class="ruby-identifier">resolved_name</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: brew.h.rb</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>brew.h.rb</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>brew.h.rb
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Mon Aug 09 14:18:33 -0700 2010</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+    <div id="requires-list">
+      <h3 class="section-bar">Required files</h3>
+
+      <div class="name-list">
+      <a href="formula_rb.html">formula</a>&nbsp;&nbsp;
+      digest&nbsp;&nbsp;
+      erb&nbsp;&nbsp;
+      open-uri&nbsp;&nbsp;
+      yaml&nbsp;&nbsp;
+      <a href="formula_rb.html">formula</a>&nbsp;&nbsp;
+      <a href="formula_rb.html">formula</a>&nbsp;&nbsp;
+      <a href="formula_rb.html">formula</a>&nbsp;&nbsp;
+      <a href="formula_installer_rb.html">formula_installer</a>&nbsp;&nbsp;
+      <a href="hardware_rb.html">hardware</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000004">__make</a>&nbsp;&nbsp;
+      <a href="#M000017">brew_install</a>&nbsp;&nbsp;
+      <a href="#M000003">check_for_blacklisted_formula</a>&nbsp;&nbsp;
+      <a href="#M000010">clean</a>&nbsp;&nbsp;
+      <a href="#M000009">cleanup</a>&nbsp;&nbsp;
+      <a href="#M000012">diy</a>&nbsp;&nbsp;
+      <a href="#M000020">gcc_40_build</a>&nbsp;&nbsp;
+      <a href="#M000018">gcc_42_build</a>&nbsp;&nbsp;
+      <a href="#M000019">gcc_build</a>&nbsp;&nbsp;
+      <a href="#M000006">github_info</a>&nbsp;&nbsp;
+      <a href="#M000007">info</a>&nbsp;&nbsp;
+      <a href="#M000008">issues_for_formula</a>&nbsp;&nbsp;
+      <a href="#M000021">llvm_build</a>&nbsp;&nbsp;
+      <a href="#M000013">macports_or_fink_installed?</a>&nbsp;&nbsp;
+      <a href="#M000005">make</a>&nbsp;&nbsp;
+      <a href="#M000015">outdated_brews</a>&nbsp;&nbsp;
+      <a href="#M000011">prune</a>&nbsp;&nbsp;
+      <a href="#M000016">search_brews</a>&nbsp;&nbsp;
+      <a href="#M000014">versions_of</a>&nbsp;&nbsp;
+      <a href="#M000022">x11_installed?</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">FORMULA_META_FILES</td>
+          <td>=</td>
+          <td class="context-item-value">%w[README README.md ChangeLog COPYING LICENSE LICENCE COPYRIGHT AUTHORS]</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">PLEASE_REPORT_BUG</td>
+          <td>=</td>
+          <td class="context-item-value">&quot;#{Tty.white}Please report this bug at #{Tty.em}http://github.com/mxcl/homebrew/issues#{Tty.reset}&quot;</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000004" class="method-detail">
+        <a name="M000004"></a>
+
+        <div class="method-heading">
+          <a href="brew_h_rb.src/M000004.html" target="Code" class="method-signature"
+            onclick="popupCode('brew_h_rb.src/M000004.html');return false;">
+          <span class="method-name">__make</span><span class="method-args">(url, name)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000017" class="method-detail">
+        <a name="M000017"></a>
+
+        <div class="method-heading">
+          <a href="brew_h_rb.src/M000017.html" target="Code" class="method-signature"
+            onclick="popupCode('brew_h_rb.src/M000017.html');return false;">
+          <span class="method-name">brew_install</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000003" class="method-detail">
+        <a name="M000003"></a>
+
+        <div class="method-heading">
+          <a href="brew_h_rb.src/M000003.html" target="Code" class="method-signature"
+            onclick="popupCode('brew_h_rb.src/M000003.html');return false;">
+          <span class="method-name">check_for_blacklisted_formula</span><span class="method-args">(names)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000010" class="method-detail">
+        <a name="M000010"></a>
+
+        <div class="method-heading">
+          <a href="brew_h_rb.src/M000010.html" target="Code" class="method-signature"
+            onclick="popupCode('brew_h_rb.src/M000010.html');return false;">
+          <span class="method-name">clean</span><span class="method-args">(f)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000009" class="method-detail">
+        <a name="M000009"></a>
+
+        <div class="method-heading">
+          <a href="brew_h_rb.src/M000009.html" target="Code" class="method-signature"
+            onclick="popupCode('brew_h_rb.src/M000009.html');return false;">
+          <span class="method-name">cleanup</span><span class="method-args">(name)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000012" class="method-detail">
+        <a name="M000012"></a>
+
+        <div class="method-heading">
+          <a href="brew_h_rb.src/M000012.html" target="Code" class="method-signature"
+            onclick="popupCode('brew_h_rb.src/M000012.html');return false;">
+          <span class="method-name">diy</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000020" class="method-detail">
+        <a name="M000020"></a>
+
+        <div class="method-heading">
+          <a href="brew_h_rb.src/M000020.html" target="Code" class="method-signature"
+            onclick="popupCode('brew_h_rb.src/M000020.html');return false;">
+          <span class="method-name">gcc_40_build</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000018" class="method-detail">
+        <a name="M000018"></a>
+
+        <div class="method-heading">
+          <a href="brew_h_rb.src/M000018.html" target="Code" class="method-signature"
+            onclick="popupCode('brew_h_rb.src/M000018.html');return false;">
+          <span class="method-name">gcc_42_build</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000019" class="method-detail">
+        <a name="M000019"></a>
+
+        <div class="method-heading">
+          <span class="method-name">gcc_build</span><span class="method-args">()</span>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Alias for <a href="brew_h_rb.html#M000018">gcc_42_build</a>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000006" class="method-detail">
+        <a name="M000006"></a>
+
+        <div class="method-heading">
+          <a href="brew_h_rb.src/M000006.html" target="Code" class="method-signature"
+            onclick="popupCode('brew_h_rb.src/M000006.html');return false;">
+          <span class="method-name">github_info</span><span class="method-args">(name)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000007" class="method-detail">
+        <a name="M000007"></a>
+
+        <div class="method-heading">
+          <a href="brew_h_rb.src/M000007.html" target="Code" class="method-signature"
+            onclick="popupCode('brew_h_rb.src/M000007.html');return false;">
+          <span class="method-name">info</span><span class="method-args">(f)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000008" class="method-detail">
+        <a name="M000008"></a>
+
+        <div class="method-heading">
+          <a href="brew_h_rb.src/M000008.html" target="Code" class="method-signature"
+            onclick="popupCode('brew_h_rb.src/M000008.html');return false;">
+          <span class="method-name">issues_for_formula</span><span class="method-args">(name)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000021" class="method-detail">
+        <a name="M000021"></a>
+
+        <div class="method-heading">
+          <a href="brew_h_rb.src/M000021.html" target="Code" class="method-signature"
+            onclick="popupCode('brew_h_rb.src/M000021.html');return false;">
+          <span class="method-name">llvm_build</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000013" class="method-detail">
+        <a name="M000013"></a>
+
+        <div class="method-heading">
+          <a href="brew_h_rb.src/M000013.html" target="Code" class="method-signature"
+            onclick="popupCode('brew_h_rb.src/M000013.html');return false;">
+          <span class="method-name">macports_or_fink_installed?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000005" class="method-detail">
+        <a name="M000005"></a>
+
+        <div class="method-heading">
+          <a href="brew_h_rb.src/M000005.html" target="Code" class="method-signature"
+            onclick="popupCode('brew_h_rb.src/M000005.html');return false;">
+          <span class="method-name">make</span><span class="method-args">(url)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000015" class="method-detail">
+        <a name="M000015"></a>
+
+        <div class="method-heading">
+          <a href="brew_h_rb.src/M000015.html" target="Code" class="method-signature"
+            onclick="popupCode('brew_h_rb.src/M000015.html');return false;">
+          <span class="method-name">outdated_brews</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000011" class="method-detail">
+        <a name="M000011"></a>
+
+        <div class="method-heading">
+          <a href="brew_h_rb.src/M000011.html" target="Code" class="method-signature"
+            onclick="popupCode('brew_h_rb.src/M000011.html');return false;">
+          <span class="method-name">prune</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000016" class="method-detail">
+        <a name="M000016"></a>
+
+        <div class="method-heading">
+          <a href="brew_h_rb.src/M000016.html" target="Code" class="method-signature"
+            onclick="popupCode('brew_h_rb.src/M000016.html');return false;">
+          <span class="method-name">search_brews</span><span class="method-args">(text)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000014" class="method-detail">
+        <a name="M000014"></a>
+
+        <div class="method-heading">
+          <a href="brew_h_rb.src/M000014.html" target="Code" class="method-signature"
+            onclick="popupCode('brew_h_rb.src/M000014.html');return false;">
+          <span class="method-name">versions_of</span><span class="method-args">(keg_name)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000022" class="method-detail">
+        <a name="M000022"></a>
+
+        <div class="method-heading">
+          <a href="brew_h_rb.src/M000022.html" target="Code" class="method-signature"
+            onclick="popupCode('brew_h_rb.src/M000022.html');return false;">
+          <span class="method-name">x11_installed?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

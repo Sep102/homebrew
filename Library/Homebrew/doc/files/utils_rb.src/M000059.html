@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>archs_for_command (utils.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File utils.rb, line 175</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">archs_for_command</span> <span class="ruby-identifier">cmd</span>
+  <span class="ruby-identifier">cmd</span> = <span class="ruby-identifier">cmd</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-comment cmt"># If we were passed a Pathname, turn it into a string.</span>
+  <span class="ruby-identifier">cmd</span> = <span class="ruby-node">`/usr/bin/which #{cmd}`</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">Pathname</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">cmd</span>).<span class="ruby-identifier">absolute?</span>
+  <span class="ruby-identifier">cmd</span>.<span class="ruby-identifier">gsub!</span> <span class="ruby-value str">' '</span>, <span class="ruby-value str">'\\ '</span>  <span class="ruby-comment cmt"># Escape spaces in the filename.</span>
+
+  <span class="ruby-identifier">archs</span> = <span class="ruby-constant">IO</span>.<span class="ruby-identifier">popen</span>(<span class="ruby-node">&quot;/usr/bin/file -L #{cmd}&quot;</span>).<span class="ruby-identifier">readlines</span>.<span class="ruby-identifier">inject</span>([]) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">archs</span>, <span class="ruby-identifier">line</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">line</span>
+    <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/Mach-O (executable|dynamically linked shared library) ppc/</span>
+      <span class="ruby-identifier">archs</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">:ppc7400</span>
+    <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/Mach-O 64-bit (executable|dynamically linked shared library) ppc64/</span>
+      <span class="ruby-identifier">archs</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">:ppc64</span>
+    <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/Mach-O (executable|dynamically linked shared library) i386/</span>
+      <span class="ruby-identifier">archs</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">:i386</span>
+    <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/Mach-O 64-bit (executable|dynamically linked shared library) x86_64/</span>
+      <span class="ruby-identifier">archs</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">:x86_64</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">archs</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span>
+  <span class="ruby-identifier">archs</span>.<span class="ruby-identifier">extend</span>(<span class="ruby-constant">ArchitectureListExtension</span>)
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

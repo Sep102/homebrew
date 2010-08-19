@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>make (brew.h.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File brew.h.rb, line 116</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">make</span> <span class="ruby-identifier">url</span>
+  <span class="ruby-identifier">path</span> = <span class="ruby-constant">Pathname</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">url</span>
+
+  <span class="ruby-node">/(.*?)[-_.]?#{path.version}/</span>.<span class="ruby-identifier">match</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">basename</span>
+
+  <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">$1</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">empty?</span>
+    <span class="ruby-identifier">name</span> = <span class="ruby-identifier">$1</span>
+  <span class="ruby-keyword kw">else</span>
+    <span class="ruby-identifier">print</span> <span class="ruby-node">&quot;Formula name [#{path.stem}]: &quot;</span>
+    <span class="ruby-identifier">gots</span> = <span class="ruby-identifier">$stdin</span>.<span class="ruby-identifier">gets</span>.<span class="ruby-identifier">chomp</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">gots</span>.<span class="ruby-identifier">empty?</span>
+      <span class="ruby-identifier">name</span> = <span class="ruby-identifier">path</span>.<span class="ruby-identifier">stem</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">name</span> = <span class="ruby-identifier">gots</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-identifier">force_text</span> = <span class="ruby-value str">&quot;If you really want to make this formula use --force.&quot;</span>
+
+  <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">downcase</span>
+  <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/libxml/</span>, <span class="ruby-regexp re">/libxlst/</span>, <span class="ruby-regexp re">/freetype/</span>, <span class="ruby-regexp re">/libpng/</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;\#{name} is blacklisted for creation\nApple distributes this library with OS X, you can find it in /usr/X11/lib.\nHowever not all build scripts look here, so you may need to call ENV.x11 or\nENV.libxml2 in your formula's install function.\n\n\#{force_text}\n&quot;</span>
+  <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/rubygem/</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Sorry RubyGems comes with OS X so we don't package it.\n\n#{force_text}&quot;</span>
+  <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/wxwidgets/</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;\#{name} is blacklisted for creation\nAn older version of wxWidgets is provided by Apple with OS X, but\na formula for wxWidgets 2.8.10 is provided:\n\nbrew install wxmac\n\n\#{force_text}\n&quot;</span>
+  <span class="ruby-keyword kw">end</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">ARGV</span>.<span class="ruby-identifier">force?</span>
+
+  <span class="ruby-identifier">__make</span> <span class="ruby-identifier">url</span>, <span class="ruby-identifier">name</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

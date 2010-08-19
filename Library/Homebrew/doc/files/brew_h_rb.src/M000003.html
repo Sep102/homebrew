@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>check_for_blacklisted_formula (brew.h.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File brew.h.rb, line 4</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">check_for_blacklisted_formula</span> <span class="ruby-identifier">names</span>
+  <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">if</span> <span class="ruby-constant">ARGV</span>.<span class="ruby-identifier">force?</span>
+
+  <span class="ruby-identifier">names</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">name</span>
+    <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'tex'</span>, <span class="ruby-value str">'tex-live'</span>, <span class="ruby-value str">'texlive'</span> <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">abort</span> <span class="ruby-value str">&quot;Installing TeX from source is weird and gross, requires a lot of patches,\nand only builds 32-bit (and thus can't use Homebrew deps on Snow Leopard.)\n\nWe recommend using a MacTeX distribution:\nhttp://www.tug.org/mactex/\n&quot;</span>.<span class="ruby-identifier">undent</span>
+
+    <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'mercurial'</span>, <span class="ruby-value str">'hg'</span> <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">abort</span> <span class="ruby-value str">&quot;Mercurial can be install thusly:\nbrew install pip &amp;&amp; pip install mercurial\n&quot;</span>.<span class="ruby-identifier">undent</span>
+
+    <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'setuptools'</span> <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">abort</span> <span class="ruby-value str">&quot;When working with a Homebrew-built Python, distribute is preferred\nover setuptools, and can be used as the prequisite for pip.\n\nInstall distribute using:\nbrew install distribute\n&quot;</span>.<span class="ruby-identifier">undent</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

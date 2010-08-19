@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>download_strategy (SoftwareSpecification)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File formula.rb, line 41</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">download_strategy</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">detect_download_strategy</span>(<span class="ruby-ivar">@url</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@using</span>.<span class="ruby-identifier">nil?</span>
+
+    <span class="ruby-comment cmt"># If a class is passed, assume it is a download strategy</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-ivar">@using</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@using</span>.<span class="ruby-identifier">kind_of?</span> <span class="ruby-constant">Class</span>
+
+    <span class="ruby-identifier">detected</span> = <span class="ruby-constant">VCS_SYMBOLS</span>[<span class="ruby-ivar">@using</span>]
+    <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Unknown strategy #{@using} was requested.&quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">detected</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">detected</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

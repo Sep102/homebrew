@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>brew_doctor (brew_doctor.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File brew_doctor.rb, line 441</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">brew_doctor</span>
+  <span class="ruby-identifier">read</span>, <span class="ruby-identifier">write</span> = <span class="ruby-constant">IO</span>.<span class="ruby-identifier">pipe</span>
+
+  <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">fork</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>
+    <span class="ruby-identifier">read</span>.<span class="ruby-identifier">close</span>
+    <span class="ruby-identifier">$stdout</span>.<span class="ruby-identifier">reopen</span> <span class="ruby-identifier">write</span>
+
+    <span class="ruby-identifier">check_usr_bin_ruby</span>
+    <span class="ruby-identifier">check_homebrew_prefix</span>
+    <span class="ruby-identifier">check_for_stray_dylibs</span>
+    <span class="ruby-identifier">check_gcc_versions</span>
+    <span class="ruby-identifier">check_for_other_package_managers</span>
+    <span class="ruby-identifier">check_for_x11</span>
+    <span class="ruby-identifier">check_for_nonstandard_x11</span>
+    <span class="ruby-identifier">check_access_share_locale</span>
+    <span class="ruby-identifier">check_access_share_man</span>
+    <span class="ruby-identifier">check_user_path</span>
+    <span class="ruby-identifier">check_which_pkg_config</span>
+    <span class="ruby-identifier">check_pkg_config_paths</span>
+    <span class="ruby-identifier">check_access_pkgconfig</span>
+    <span class="ruby-identifier">check_for_gettext</span>
+    <span class="ruby-identifier">check_for_config_scripts</span>
+    <span class="ruby-identifier">check_for_dyld_vars</span>
+    <span class="ruby-identifier">check_for_symlinked_cellar</span>
+    <span class="ruby-identifier">check_for_multiple_volumes</span>
+    <span class="ruby-identifier">check_for_git</span>
+
+    <span class="ruby-identifier">exit!</span> <span class="ruby-value">0</span>
+  <span class="ruby-keyword kw">else</span>
+    <span class="ruby-identifier">write</span>.<span class="ruby-identifier">close</span>
+
+    <span class="ruby-keyword kw">unless</span> (<span class="ruby-identifier">out</span> = <span class="ruby-identifier">read</span>.<span class="ruby-identifier">read</span>).<span class="ruby-identifier">chomp</span>.<span class="ruby-identifier">empty?</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-identifier">out</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Your OS X is ripe for brewing.&quot;</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Any troubles you may be experiencing are likely purely psychosomatic.&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

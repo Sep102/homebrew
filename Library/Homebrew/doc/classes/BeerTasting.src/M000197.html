@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>test_formula_funcs (BeerTasting)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File test/test_bucket.rb, line 43</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_formula_funcs</span>
+    <span class="ruby-identifier">classname</span>=<span class="ruby-constant">Formula</span>.<span class="ruby-identifier">class_s</span>(<span class="ruby-constant">FOOBAR</span>)
+    <span class="ruby-identifier">path</span>=<span class="ruby-constant">Formula</span>.<span class="ruby-identifier">path</span>(<span class="ruby-constant">FOOBAR</span>)
+    
+    <span class="ruby-identifier">assert_equal</span> <span class="ruby-value str">&quot;FooBar&quot;</span>, <span class="ruby-identifier">classname</span>
+    <span class="ruby-identifier">assert_match</span> <span class="ruby-constant">Regexp</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;^#{HOMEBREW_PREFIX}/Library/Formula&quot;</span>), <span class="ruby-identifier">path</span>.<span class="ruby-identifier">to_s</span>
+
+    <span class="ruby-identifier">path</span>=<span class="ruby-constant">HOMEBREW_PREFIX</span><span class="ruby-operator">+</span><span class="ruby-node">&quot;Library/Formula/#{FOOBAR}.rb&quot;</span>
+    <span class="ruby-identifier">path</span>.<span class="ruby-identifier">dirname</span>.<span class="ruby-identifier">mkpath</span>
+    <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">path</span>, <span class="ruby-value str">'w'</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">f</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">%{
+        require 'formula'
+        class #{classname} &lt; Formula
+          @url=''
+          def initialize(*args)
+            @homepage = 'http://example.com/'
+            super
+          end
+        end
+      }</span>
+    <span class="ruby-keyword kw">end</span>
+    
+    <span class="ruby-identifier">assert_not_nil</span> <span class="ruby-constant">Formula</span>.<span class="ruby-identifier">factory</span>(<span class="ruby-constant">FOOBAR</span>)
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

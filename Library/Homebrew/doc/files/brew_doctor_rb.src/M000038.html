@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>check_for_gettext (brew_doctor.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File brew_doctor.rb, line 313</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">check_for_gettext</span>
+  <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span> <span class="ruby-node">&quot;#{HOMEBREW_PREFIX}/lib/libgettextlib.dylib&quot;</span> <span class="ruby-keyword kw">or</span>
+     <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span> <span class="ruby-node">&quot;#{HOMEBREW_PREFIX}/lib/libintl.dylib&quot;</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;gettext was detected in your PREFIX.\n\nThe gettext provided by Homebrew is \&quot;keg-only\&quot;, meaning it does not\nget linked into your PREFIX by default.\n\nIf you `brew link gettext` then a large number of brews that don't\notherwise have a `depends_on 'gettext'` will pick up gettext anyway\nduring the `./configure` step.\n\n&quot;</span>.<span class="ruby-identifier">undent</span>
+  <span class="ruby-keyword kw">end</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

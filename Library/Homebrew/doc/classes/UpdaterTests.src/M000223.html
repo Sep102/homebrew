@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>test_update_homebrew_with_formulae_changes (UpdaterTests)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File test/test_updater.rb, line 83</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_update_homebrew_with_formulae_changes</span>
+    <span class="ruby-identifier">outside_prefix</span> <span class="ruby-keyword kw">do</span>
+      <span class="ruby-identifier">updater</span> = <span class="ruby-constant">RefreshBrewMock</span>.<span class="ruby-identifier">new</span>
+      <span class="ruby-identifier">updater</span>.<span class="ruby-identifier">in_prefix_expect</span>(<span class="ruby-constant">RefreshBrew</span><span class="ruby-operator">::</span><span class="ruby-constant">INIT_COMMAND</span>)
+      <span class="ruby-identifier">output</span> = <span class="ruby-identifier">fixture</span>(<span class="ruby-value str">'update_git_pull_output_with_formulae_changes'</span>)
+      <span class="ruby-identifier">updater</span>.<span class="ruby-identifier">in_prefix_expect</span>(<span class="ruby-constant">RefreshBrew</span><span class="ruby-operator">::</span><span class="ruby-constant">UPDATE_COMMAND</span>, <span class="ruby-identifier">output</span>)
+      
+      <span class="ruby-identifier">assert_equal</span> <span class="ruby-keyword kw">true</span>, <span class="ruby-identifier">updater</span>.<span class="ruby-identifier">update_from_masterbrew!</span>
+      <span class="ruby-identifier">assert</span> <span class="ruby-identifier">updater</span>.<span class="ruby-identifier">pending_formulae_changes?</span>
+      <span class="ruby-identifier">assert_equal</span> <span class="ruby-node">%w{ xar yajl }</span>, <span class="ruby-identifier">updater</span>.<span class="ruby-identifier">updated_formulae</span>
+      <span class="ruby-identifier">assert_equal</span> <span class="ruby-node">%w{ antiword bash-completion ddrescue dict lua }</span>, <span class="ruby-identifier">updater</span>.<span class="ruby-identifier">added_formulae</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

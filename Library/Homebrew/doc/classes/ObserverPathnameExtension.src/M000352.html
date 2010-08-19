@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>make_relative_symlink (ObserverPathnameExtension)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File extend/pathname.rb, line 230</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">make_relative_symlink</span> <span class="ruby-identifier">src</span>
+    <span class="ruby-identifier">dirname</span>.<span class="ruby-identifier">mkpath</span>
+    <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">chdir</span> <span class="ruby-identifier">dirname</span> <span class="ruby-keyword kw">do</span>
+      <span class="ruby-comment cmt"># TODO use Ruby function so we get exceptions</span>
+      <span class="ruby-comment cmt"># NOTE Ruby functions may work, but I had a lot of problems</span>
+      <span class="ruby-identifier">rv</span>=<span class="ruby-identifier">system</span> <span class="ruby-value str">'ln'</span>, <span class="ruby-value str">'-sf'</span>, <span class="ruby-identifier">src</span>.<span class="ruby-identifier">relative_path_from</span>(<span class="ruby-identifier">dirname</span>)
+      <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Could not create symlink #{to_s}&quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">rv</span> <span class="ruby-keyword kw">and</span> <span class="ruby-identifier">$?</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;ln #{to_s}&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-constant">ARGV</span>.<span class="ruby-identifier">verbose?</span>
+      <span class="ruby-identifier">$n</span><span class="ruby-operator">+=</span><span class="ruby-value">1</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

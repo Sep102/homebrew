@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>check_external_deps (FormulaInstaller)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File formula_installer.rb, line 58</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">check_external_deps</span> <span class="ruby-identifier">f</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">external_deps</span>
+
+    <span class="ruby-identifier">f</span>.<span class="ruby-identifier">external_deps</span>[<span class="ruby-identifier">:python</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">dep</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-identifier">pyerr</span>(<span class="ruby-identifier">dep</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">quiet_system</span> <span class="ruby-value str">&quot;/usr/bin/env&quot;</span>, <span class="ruby-value str">&quot;python&quot;</span>, <span class="ruby-value str">&quot;-c&quot;</span>, <span class="ruby-node">&quot;import #{dep}&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">f</span>.<span class="ruby-identifier">external_deps</span>[<span class="ruby-identifier">:perl</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">dep</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-identifier">plerr</span>(<span class="ruby-identifier">dep</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">quiet_system</span> <span class="ruby-value str">&quot;/usr/bin/env&quot;</span>, <span class="ruby-value str">&quot;perl&quot;</span>, <span class="ruby-value str">&quot;-e&quot;</span>, <span class="ruby-node">&quot;use #{dep}&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">f</span>.<span class="ruby-identifier">external_deps</span>[<span class="ruby-identifier">:ruby</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">dep</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-identifier">rberr</span>(<span class="ruby-identifier">dep</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">quiet_system</span> <span class="ruby-value str">&quot;/usr/bin/env&quot;</span>, <span class="ruby-value str">&quot;ruby&quot;</span>, <span class="ruby-value str">&quot;-rubygems&quot;</span>, <span class="ruby-value str">&quot;-e&quot;</span>, <span class="ruby-node">&quot;require '#{dep}'&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">f</span>.<span class="ruby-identifier">external_deps</span>[<span class="ruby-identifier">:jruby</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">dep</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-identifier">rberr</span>(<span class="ruby-identifier">dep</span>) <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">quiet_system</span> <span class="ruby-value str">&quot;/usr/bin/env&quot;</span>, <span class="ruby-value str">&quot;jruby&quot;</span>, <span class="ruby-value str">&quot;-rubygems&quot;</span>, <span class="ruby-value str">&quot;-e&quot;</span>, <span class="ruby-node">&quot;require '#{dep}'&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>brew_install (brew.h.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File brew.h.rb, line 425</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">brew_install</span>
+  <span class="ruby-identifier">require</span> <span class="ruby-value str">'formula_installer'</span>
+  <span class="ruby-identifier">require</span> <span class="ruby-value str">'hardware'</span>
+
+  <span class="ruby-comment cmt">############################################################ sanity checks</span>
+  <span class="ruby-keyword kw">case</span> <span class="ruby-constant">Hardware</span>.<span class="ruby-identifier">cpu_type</span> <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:ppc</span>, <span class="ruby-identifier">:dunno</span>
+    <span class="ruby-identifier">abort</span> <span class="ruby-value str">&quot;Sorry, Homebrew does not support your computer's CPU architecture.\n&quot;</span><span class="ruby-operator">+</span>
+          <span class="ruby-value str">&quot;For PPC support, see: http://github.com/sceaga/homebrew/tree/powerpc&quot;</span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Cannot write to #{HOMEBREW_CELLAR}&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-constant">HOMEBREW_CELLAR</span>.<span class="ruby-identifier">exist?</span> <span class="ruby-keyword kw">and</span> <span class="ruby-keyword kw">not</span> <span class="ruby-constant">HOMEBREW_CELLAR</span>.<span class="ruby-identifier">writable?</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Cannot write to #{HOMEBREW_PREFIX}&quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">HOMEBREW_PREFIX</span>.<span class="ruby-identifier">writable?</span>
+
+  <span class="ruby-comment cmt">################################################################# warnings</span>
+  <span class="ruby-keyword kw">begin</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-constant">MACOS_VERSION</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">10.6</span>
+      <span class="ruby-identifier">opoo</span> <span class="ruby-value str">&quot;You should upgrade to Xcode 3.2.2&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">llvm_build</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">RECOMMENDED_LLVM</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">opoo</span> <span class="ruby-value str">&quot;You should upgrade to Xcode 3.1.4&quot;</span> <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">gcc_40_build</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">RECOMMENDED_GCC_40</span>) <span class="ruby-keyword kw">or</span> (<span class="ruby-identifier">gcc_42_build</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">RECOMMENDED_GCC_42</span>)
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">rescue</span>
+    <span class="ruby-comment cmt"># the reason we don't abort is some formula don't require Xcode</span>
+    <span class="ruby-comment cmt"># TODO allow formula to declare themselves as &quot;not needing Xcode&quot;</span>
+    <span class="ruby-identifier">opoo</span> <span class="ruby-value str">&quot;Xcode is not installed! Builds may fail!&quot;</span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">macports_or_fink_installed?</span>
+    <span class="ruby-identifier">opoo</span> <span class="ruby-value str">&quot;It appears you have Macports or Fink installed&quot;</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Although, unlikely, this can break builds or cause obscure runtime issues.&quot;</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;If you experience problems try uninstalling these tools.&quot;</span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-comment cmt">################################################################# install!</span>
+  <span class="ruby-identifier">installer</span> = <span class="ruby-constant">FormulaInstaller</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-identifier">installer</span>.<span class="ruby-identifier">install_deps</span> = <span class="ruby-operator">!</span><span class="ruby-constant">ARGV</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-value str">'--ignore-dependencies'</span>)
+
+  <span class="ruby-constant">ARGV</span>.<span class="ruby-identifier">formulae</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">installed?</span> <span class="ruby-keyword kw">or</span> <span class="ruby-constant">ARGV</span>.<span class="ruby-identifier">force?</span>
+      <span class="ruby-identifier">installer</span>.<span class="ruby-identifier">install</span> <span class="ruby-identifier">f</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Formula already installed: #{f.prefix}&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

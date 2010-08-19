@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>prune (brew.h.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File brew.h.rb, line 284</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">prune</span>
+  <span class="ruby-identifier">$n</span>=<span class="ruby-value">0</span>
+  <span class="ruby-identifier">$d</span>=<span class="ruby-value">0</span>
+
+  <span class="ruby-identifier">dirs</span>=<span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-identifier">paths</span>=<span class="ruby-node">%w[bin sbin etc lib include share]</span>.<span class="ruby-identifier">collect</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">d</span><span class="ruby-operator">|</span> <span class="ruby-constant">HOMEBREW_PREFIX</span><span class="ruby-operator">+</span><span class="ruby-identifier">d</span>}
+
+  <span class="ruby-identifier">paths</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">path</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">path</span>.<span class="ruby-identifier">find</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">path</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">path</span>.<span class="ruby-identifier">extend</span> <span class="ruby-constant">ObserverPathnameExtension</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">symlink?</span>
+        <span class="ruby-identifier">path</span>.<span class="ruby-identifier">unlink</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">resolved_path_exists?</span>
+      <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">directory?</span>
+        <span class="ruby-identifier">dirs</span><span class="ruby-operator">&lt;&lt;</span><span class="ruby-identifier">path</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-identifier">dirs</span>.<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">reverse_each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">d</span><span class="ruby-operator">|</span> <span class="ruby-identifier">d</span>.<span class="ruby-identifier">rmdir_if_possible</span>}
+
+  <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">$n</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span> <span class="ruby-keyword kw">and</span> <span class="ruby-identifier">$d</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Nothing pruned&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-constant">ARGV</span>.<span class="ruby-identifier">verbose?</span>
+  <span class="ruby-keyword kw">else</span>
+    <span class="ruby-comment cmt"># always showing symlinks text is deliberate</span>
+    <span class="ruby-identifier">print</span> <span class="ruby-node">&quot;Pruned #{$n} symbolic links &quot;</span>
+    <span class="ruby-identifier">print</span> <span class="ruby-node">&quot;and #{$d} directories &quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">$d</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
+    <span class="ruby-identifier">puts</span>  <span class="ruby-node">&quot;from #{HOMEBREW_PREFIX}&quot;</span>
+  <span class="ruby-keyword kw">end</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

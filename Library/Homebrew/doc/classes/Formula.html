@@ -1,0 +1,896 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Formula</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Formula</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/formula_rb.html">
+                formula.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+Derive and define at least @url, see Library/<a
+href="Formula.html">Formula</a> for examples
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000127">aliases</a>&nbsp;&nbsp;
+      <a href="#M000126">all</a>&nbsp;&nbsp;
+      <a href="#M000097">bin</a>&nbsp;&nbsp;
+      <a href="#M000122">brew</a>&nbsp;&nbsp;
+      <a href="#M000117">cached_download</a>&nbsp;&nbsp;
+      <a href="#M000118">caveats</a>&nbsp;&nbsp;
+      <a href="#M000124">class_s</a>&nbsp;&nbsp;
+      <a href="#M000130">deps</a>&nbsp;&nbsp;
+      <a href="#M000098">doc</a>&nbsp;&nbsp;
+      <a href="#M000116">download_strategy</a>&nbsp;&nbsp;
+      <a href="#M000114">etc</a>&nbsp;&nbsp;
+      <a href="#M000131">external_deps</a>&nbsp;&nbsp;
+      <a href="#M000128">factory</a>&nbsp;&nbsp;
+      <a href="#M000132">fails_with_llvm</a>&nbsp;&nbsp;
+      <a href="#M000099">include</a>&nbsp;&nbsp;
+      <a href="#M000100">info</a>&nbsp;&nbsp;
+      <a href="#M000094">installed?</a>&nbsp;&nbsp;
+      <a href="#M000120">keg_only?</a>&nbsp;&nbsp;
+      <a href="#M000101">lib</a>&nbsp;&nbsp;
+      <a href="#M000102">libexec</a>&nbsp;&nbsp;
+      <a href="#M000103">man</a>&nbsp;&nbsp;
+      <a href="#M000104">man1</a>&nbsp;&nbsp;
+      <a href="#M000105">man2</a>&nbsp;&nbsp;
+      <a href="#M000106">man3</a>&nbsp;&nbsp;
+      <a href="#M000107">man4</a>&nbsp;&nbsp;
+      <a href="#M000108">man5</a>&nbsp;&nbsp;
+      <a href="#M000109">man6</a>&nbsp;&nbsp;
+      <a href="#M000110">man7</a>&nbsp;&nbsp;
+      <a href="#M000111">man8</a>&nbsp;&nbsp;
+      <a href="#M000125">names</a>&nbsp;&nbsp;
+      <a href="#M000093">new</a>&nbsp;&nbsp;
+      <a href="#M000119">patches</a>&nbsp;&nbsp;
+      <a href="#M000129">path</a>&nbsp;&nbsp;
+      <a href="#M000095">path</a>&nbsp;&nbsp;
+      <a href="#M000096">prefix</a>&nbsp;&nbsp;
+      <a href="#M000112">sbin</a>&nbsp;&nbsp;
+      <a href="#M000113">share</a>&nbsp;&nbsp;
+      <a href="#M000121">skip_clean?</a>&nbsp;&nbsp;
+      <a href="#M000123">std_cmake_parameters</a>&nbsp;&nbsp;
+      <a href="#M000133">system</a>&nbsp;&nbsp;
+      <a href="#M000115">var</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+    <div id="includes">
+      <h3 class="section-bar">Included Modules</h3>
+
+      <div id="includes-list">
+        <span class="include-name">FileUtils</span>
+      </div>
+    </div>
+
+    <div id="section">
+
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">CHECKSUM_TYPES</td>
+          <td>=</td>
+          <td class="context-item-value">[:md5, :sha1, :sha256].freeze</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+
+
+    <div id="attribute-list">
+      <h3 class="section-bar">Attributes</h3>
+
+      <div class="name-list">
+        <table>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">downloader</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">homepage</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">name</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">specs</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">stable</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc">
+The methods below define the formula DSL.
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">unstable</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc">
+The methods below define the formula DSL.
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">url</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">version</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        </table>
+      </div>
+    </div>
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000127" class="method-detail">
+        <a name="M000127"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000127.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000127.html');return false;">
+          <span class="method-name">aliases</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000126" class="method-detail">
+        <a name="M000126"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000126.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000126.html');return false;">
+          <span class="method-name">all</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+an array of <a href="Formula.html#M000126">all</a> <a
+href="Formula.html">Formula</a>, instantiated
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000124" class="method-detail">
+        <a name="M000124"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000124.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000124.html');return false;">
+          <span class="method-name">class_s</span><span class="method-args">(name)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000128" class="method-detail">
+        <a name="M000128"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000128.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000128.html');return false;">
+          <span class="method-name">factory</span><span class="method-args">(name)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000125" class="method-detail">
+        <a name="M000125"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000125.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000125.html');return false;">
+          <span class="method-name">names</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+an array of <a href="Formula.html#M000126">all</a> <a
+href="Formula.html">Formula</a> <a href="Formula.html#M000125">names</a>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000093" class="method-detail">
+        <a name="M000093"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000093.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000093.html');return false;">
+          <span class="method-name">new</span><span class="method-args">(name='__UNKNOWN__')</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+<a href="Homebrew.html">Homebrew</a> determines the name
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000129" class="method-detail">
+        <a name="M000129"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000129.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000129.html');return false;">
+          <span class="method-name">path</span><span class="method-args">(name)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000097" class="method-detail">
+        <a name="M000097"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000097.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000097.html');return false;">
+          <span class="method-name">bin</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000122" class="method-detail">
+        <a name="M000122"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000122.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000122.html');return false;">
+          <span class="method-name">brew</span><span class="method-args">() {|self| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+yields self with current working directory set to the uncompressed tarball
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000117" class="method-detail">
+        <a name="M000117"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000117.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000117.html');return false;">
+          <span class="method-name">cached_download</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000118" class="method-detail">
+        <a name="M000118"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000118.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000118.html');return false;">
+          <span class="method-name">caveats</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+tell the user about any <a href="Formula.html#M000118">caveats</a>
+regarding this package, return a string
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000130" class="method-detail">
+        <a name="M000130"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000130.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000130.html');return false;">
+          <span class="method-name">deps</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000098" class="method-detail">
+        <a name="M000098"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000098.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000098.html');return false;">
+          <span class="method-name">doc</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000116" class="method-detail">
+        <a name="M000116"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000116.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000116.html');return false;">
+          <span class="method-name">download_strategy</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Use the @spec_to_use to detect the download strategy. Can be overriden to
+force a custom download strategy
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000114" class="method-detail">
+        <a name="M000114"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000114.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000114.html');return false;">
+          <span class="method-name">etc</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+configuration needs to be preserved past upgrades
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000131" class="method-detail">
+        <a name="M000131"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000131.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000131.html');return false;">
+          <span class="method-name">external_deps</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000132" class="method-detail">
+        <a name="M000132"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000132.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000132.html');return false;">
+          <span class="method-name">fails_with_llvm</span><span class="method-args">(msg=&quot;&quot;, data=nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000099" class="method-detail">
+        <a name="M000099"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000099.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000099.html');return false;">
+          <span class="method-name">include</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000100" class="method-detail">
+        <a name="M000100"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000100.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000100.html');return false;">
+          <span class="method-name">info</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000094" class="method-detail">
+        <a name="M000094"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000094.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000094.html');return false;">
+          <span class="method-name">installed?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+if the dir is there, but it&#8216;s empty we consider it not installed
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000120" class="method-detail">
+        <a name="M000120"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000120.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000120.html');return false;">
+          <span class="method-name">keg_only?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+rarely, you don&#8216;t want your library symlinked into the main <a
+href="Formula.html#M000096">prefix</a> see gettext.rb for an example
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000101" class="method-detail">
+        <a name="M000101"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000101.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000101.html');return false;">
+          <span class="method-name">lib</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000102" class="method-detail">
+        <a name="M000102"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000102.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000102.html');return false;">
+          <span class="method-name">libexec</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000103" class="method-detail">
+        <a name="M000103"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000103.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000103.html');return false;">
+          <span class="method-name">man</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000104" class="method-detail">
+        <a name="M000104"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000104.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000104.html');return false;">
+          <span class="method-name">man1</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000105" class="method-detail">
+        <a name="M000105"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000105.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000105.html');return false;">
+          <span class="method-name">man2</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000106" class="method-detail">
+        <a name="M000106"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000106.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000106.html');return false;">
+          <span class="method-name">man3</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000107" class="method-detail">
+        <a name="M000107"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000107.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000107.html');return false;">
+          <span class="method-name">man4</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000108" class="method-detail">
+        <a name="M000108"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000108.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000108.html');return false;">
+          <span class="method-name">man5</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000109" class="method-detail">
+        <a name="M000109"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000109.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000109.html');return false;">
+          <span class="method-name">man6</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000110" class="method-detail">
+        <a name="M000110"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000110.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000110.html');return false;">
+          <span class="method-name">man7</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000111" class="method-detail">
+        <a name="M000111"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000111.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000111.html');return false;">
+          <span class="method-name">man8</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000119" class="method-detail">
+        <a name="M000119"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000119.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000119.html');return false;">
+          <span class="method-name">patches</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+<a href="Formula.html#M000119">patches</a> are automatically applied after
+extracting the tarball return an array of strings, or if you need a patch
+level other than -p1 return a Hash eg.
+</p>
+<pre>
+  {
+    :p0 =&gt; ['http://foo.com/patch1', 'http://foo.com/patch2'],
+    :p1 =&gt;  'http://bar.com/patch2',
+    :p2 =&gt; ['http://moo.com/patch5', 'http://moo.com/patch6']
+  }
+</pre>
+<p>
+The final option is to return DATA, then put a diff after <em>END</em>. You
+can still return a Hash with DATA as the value for a patch level key.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000095" class="method-detail">
+        <a name="M000095"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000095.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000095.html');return false;">
+          <span class="method-name">path</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000096" class="method-detail">
+        <a name="M000096"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000096.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000096.html');return false;">
+          <span class="method-name">prefix</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000112" class="method-detail">
+        <a name="M000112"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000112.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000112.html');return false;">
+          <span class="method-name">sbin</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000113" class="method-detail">
+        <a name="M000113"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000113.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000113.html');return false;">
+          <span class="method-name">share</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000121" class="method-detail">
+        <a name="M000121"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000121.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000121.html');return false;">
+          <span class="method-name">skip_clean?</span><span class="method-args">(path)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+sometimes the clean process breaks things skip cleaning paths in a formula
+with a class method like this:
+</p>
+<pre>
+  skip_clean [bin+&quot;foo&quot;, lib+&quot;bar&quot;]
+</pre>
+<p>
+redefining <a href="Formula.html#M000121">skip_clean?</a> in formulas is
+now deprecated
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000123" class="method-detail">
+        <a name="M000123"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000123.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000123.html');return false;">
+          <span class="method-name">std_cmake_parameters</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+we don&#8216;t have a std_autotools variant because autotools is a lot less
+consistent and the standard parameters are more memorable really <a
+href="Homebrew.html">Homebrew</a> should determine what works inside <a
+href="Formula.html#M000122">brew</a>() then we could add
+&#8212;disable-dependency-tracking when it will work
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000115" class="method-detail">
+        <a name="M000115"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000115.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000115.html');return false;">
+          <span class="method-name">var</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+generally we don&#8216;t want <a href="Formula.html#M000115">var</a> stuff
+inside the keg
+</p>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Protected Instance methods</h3>
+
+      <div id="method-M000133" class="method-detail">
+        <a name="M000133"></a>
+
+        <div class="method-heading">
+          <a href="Formula.src/M000133.html" target="Code" class="method-signature"
+            onclick="popupCode('Formula.src/M000133.html');return false;">
+          <span class="method-name">system</span><span class="method-args">(cmd, *args)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Pretty titles the command and buffers stdout/stderr Throws if there&#8216;s
+an error
+</p>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

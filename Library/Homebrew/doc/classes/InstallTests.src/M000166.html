@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>temporary_install (InstallTests)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File test/test_formula_install.rb, line 37</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">temporary_install</span> <span class="ruby-identifier">f</span>
+    <span class="ruby-comment cmt"># Brew and install the given formula</span>
+    <span class="ruby-identifier">nostdout</span> <span class="ruby-keyword kw">do</span>
+      <span class="ruby-identifier">f</span>.<span class="ruby-identifier">brew</span> { <span class="ruby-identifier">f</span>.<span class="ruby-identifier">install</span> }
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-comment cmt"># Allow the test to do some processing</span>
+    <span class="ruby-keyword kw">yield</span>
+    
+    <span class="ruby-comment cmt"># Remove the brewed formula and double check</span>
+    <span class="ruby-comment cmt"># that it did get removed. This lets multiple</span>
+    <span class="ruby-comment cmt"># tests use the same formula name without</span>
+    <span class="ruby-comment cmt"># stepping on each other.</span>
+    <span class="ruby-identifier">keg</span>=<span class="ruby-constant">Keg</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">prefix</span>
+    <span class="ruby-identifier">keg</span>.<span class="ruby-identifier">uninstall</span>
+    <span class="ruby-identifier">assert</span> <span class="ruby-operator">!</span><span class="ruby-identifier">keg</span>.<span class="ruby-identifier">exist?</span>
+    <span class="ruby-identifier">assert</span> <span class="ruby-operator">!</span><span class="ruby-identifier">f</span>.<span class="ruby-identifier">installed?</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

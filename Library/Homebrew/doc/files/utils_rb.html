@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: utils.rb</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>utils.rb</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>utils.rb
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Mon Aug 09 14:18:33 -0700 2010</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+    <div id="requires-list">
+      <h3 class="section-bar">Required files</h3>
+
+      <div class="name-list">
+      stringio&nbsp;&nbsp;
+      </div>
+    </div>
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000059">archs_for_command</a>&nbsp;&nbsp;
+      <a href="#M000055">curl</a>&nbsp;&nbsp;
+      <a href="#M000063">dump_build_env</a>&nbsp;&nbsp;
+      <a href="#M000057">exec_editor</a>&nbsp;&nbsp;
+      <a href="#M000058">gzip</a>&nbsp;&nbsp;
+      <a href="#M000061">ignore_interrupts</a>&nbsp;&nbsp;
+      <a href="#M000060">inreplace</a>&nbsp;&nbsp;
+      <a href="#M000052">interactive_shell</a>&nbsp;&nbsp;
+      <a href="#M000062">nostdout</a>&nbsp;&nbsp;
+      <a href="#M000048">ohai</a>&nbsp;&nbsp;
+      <a href="#M000050">onoe</a>&nbsp;&nbsp;
+      <a href="#M000049">opoo</a>&nbsp;&nbsp;
+      <a href="#M000051">pretty_duration</a>&nbsp;&nbsp;
+      <a href="#M000056">puts_columns</a>&nbsp;&nbsp;
+      <a href="#M000054">quiet_system</a>&nbsp;&nbsp;
+      <a href="#M000053">safe_system</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000059" class="method-detail">
+        <a name="M000059"></a>
+
+        <div class="method-heading">
+          <a href="utils_rb.src/M000059.html" target="Code" class="method-signature"
+            onclick="popupCode('utils_rb.src/M000059.html');return false;">
+          <span class="method-name">archs_for_command</span><span class="method-args">(cmd)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns array of architectures that the given command or library is built
+for.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000055" class="method-detail">
+        <a name="M000055"></a>
+
+        <div class="method-heading">
+          <a href="utils_rb.src/M000055.html" target="Code" class="method-signature"
+            onclick="popupCode('utils_rb.src/M000055.html');return false;">
+          <span class="method-name">curl</span><span class="method-args">(*args)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000063" class="method-detail">
+        <a name="M000063"></a>
+
+        <div class="method-heading">
+          <a href="utils_rb.src/M000063.html" target="Code" class="method-signature"
+            onclick="popupCode('utils_rb.src/M000063.html');return false;">
+          <span class="method-name">dump_build_env</span><span class="method-args">(env)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000057" class="method-detail">
+        <a name="M000057"></a>
+
+        <div class="method-heading">
+          <a href="utils_rb.src/M000057.html" target="Code" class="method-signature"
+            onclick="popupCode('utils_rb.src/M000057.html');return false;">
+          <span class="method-name">exec_editor</span><span class="method-args">(*args)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000058" class="method-detail">
+        <a name="M000058"></a>
+
+        <div class="method-heading">
+          <a href="utils_rb.src/M000058.html" target="Code" class="method-signature"
+            onclick="popupCode('utils_rb.src/M000058.html');return false;">
+          <span class="method-name">gzip</span><span class="method-args">(path)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+GZips the given path, and returns the gzipped file
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000061" class="method-detail">
+        <a name="M000061"></a>
+
+        <div class="method-heading">
+          <a href="utils_rb.src/M000061.html" target="Code" class="method-signature"
+            onclick="popupCode('utils_rb.src/M000061.html');return false;">
+          <span class="method-name">ignore_interrupts</span><span class="method-args">() {|| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000060" class="method-detail">
+        <a name="M000060"></a>
+
+        <div class="method-heading">
+          <a href="utils_rb.src/M000060.html" target="Code" class="method-signature"
+            onclick="popupCode('utils_rb.src/M000060.html');return false;">
+          <span class="method-name">inreplace</span><span class="method-args">(path, before=nil, after=nil) {|s| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000052" class="method-detail">
+        <a name="M000052"></a>
+
+        <div class="method-heading">
+          <a href="utils_rb.src/M000052.html" target="Code" class="method-signature"
+            onclick="popupCode('utils_rb.src/M000052.html');return false;">
+          <span class="method-name">interactive_shell</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000062" class="method-detail">
+        <a name="M000062"></a>
+
+        <div class="method-heading">
+          <a href="utils_rb.src/M000062.html" target="Code" class="method-signature"
+            onclick="popupCode('utils_rb.src/M000062.html');return false;">
+          <span class="method-name">nostdout</span><span class="method-args">() {|| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000048" class="method-detail">
+        <a name="M000048"></a>
+
+        <div class="method-heading">
+          <a href="utils_rb.src/M000048.html" target="Code" class="method-signature"
+            onclick="popupCode('utils_rb.src/M000048.html');return false;">
+          <span class="method-name">ohai</span><span class="method-args">(title, *sput)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+args are additional inputs to puts until a nil arg is encountered
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000050" class="method-detail">
+        <a name="M000050"></a>
+
+        <div class="method-heading">
+          <a href="utils_rb.src/M000050.html" target="Code" class="method-signature"
+            onclick="popupCode('utils_rb.src/M000050.html');return false;">
+          <span class="method-name">onoe</span><span class="method-args">(error)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000049" class="method-detail">
+        <a name="M000049"></a>
+
+        <div class="method-heading">
+          <a href="utils_rb.src/M000049.html" target="Code" class="method-signature"
+            onclick="popupCode('utils_rb.src/M000049.html');return false;">
+          <span class="method-name">opoo</span><span class="method-args">(warning)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000051" class="method-detail">
+        <a name="M000051"></a>
+
+        <div class="method-heading">
+          <a href="utils_rb.src/M000051.html" target="Code" class="method-signature"
+            onclick="popupCode('utils_rb.src/M000051.html');return false;">
+          <span class="method-name">pretty_duration</span><span class="method-args">(s)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000056" class="method-detail">
+        <a name="M000056"></a>
+
+        <div class="method-heading">
+          <a href="utils_rb.src/M000056.html" target="Code" class="method-signature"
+            onclick="popupCode('utils_rb.src/M000056.html');return false;">
+          <span class="method-name">puts_columns</span><span class="method-args">(items, cols = 4)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000054" class="method-detail">
+        <a name="M000054"></a>
+
+        <div class="method-heading">
+          <a href="utils_rb.src/M000054.html" target="Code" class="method-signature"
+            onclick="popupCode('utils_rb.src/M000054.html');return false;">
+          <span class="method-name">quiet_system</span><span class="method-args">(cmd, *args)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+prints no output
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000053" class="method-detail">
+        <a name="M000053"></a>
+
+        <div class="method-heading">
+          <a href="utils_rb.src/M000053.html" target="Code" class="method-signature"
+            onclick="popupCode('utils_rb.src/M000053.html');return false;">
+          <span class="method-name">safe_system</span><span class="method-args">(cmd, *args)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Kernel.system but with exceptions
+</p>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

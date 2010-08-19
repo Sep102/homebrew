@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>universal_binary (HomebrewEnvExtension)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File extend/ENV.rb, line 195</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">universal_binary</span>
+    <span class="ruby-identifier">append_to_cflags</span> <span class="ruby-value str">'-arch i386 -arch x86_64'</span>
+    <span class="ruby-constant">ENV</span>.<span class="ruby-constant">O3</span> <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">self</span>[<span class="ruby-value str">'CFLAGS'</span>].<span class="ruby-identifier">include?</span> <span class="ruby-value str">'-O4'</span> <span class="ruby-comment cmt"># O4 seems to cause the build to fail</span>
+    <span class="ruby-constant">ENV</span>.<span class="ruby-identifier">append</span> <span class="ruby-value str">'LDFLAGS'</span>, <span class="ruby-value str">'-arch i386 -arch x86_64'</span>
+
+    <span class="ruby-comment cmt"># Can't mix &quot;-march&quot; for a 32-bit CPU  with &quot;-arch x86_64&quot;</span>
+    <span class="ruby-identifier">remove_from_cflags</span>(<span class="ruby-regexp re">/-march=\S*/</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-constant">Hardware</span>.<span class="ruby-identifier">is_32_bit?</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

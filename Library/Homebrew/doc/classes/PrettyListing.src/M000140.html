@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>new (PrettyListing)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File brew.h.rb, line 472</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span> <span class="ruby-identifier">path</span>
+    <span class="ruby-constant">Pathname</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">path</span>).<span class="ruby-identifier">children</span>.<span class="ruby-identifier">sort</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">a</span>,<span class="ruby-identifier">b</span><span class="ruby-operator">|</span> <span class="ruby-identifier">a</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">downcase</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">b</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">downcase</span> }.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">pn</span><span class="ruby-operator">|</span>
+      <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">pn</span>.<span class="ruby-identifier">basename</span>.<span class="ruby-identifier">to_s</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'bin'</span>, <span class="ruby-value str">'sbin'</span>
+        <span class="ruby-identifier">pn</span>.<span class="ruby-identifier">find</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">pnn</span><span class="ruby-operator">|</span> <span class="ruby-identifier">puts</span> <span class="ruby-identifier">pnn</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">pnn</span>.<span class="ruby-identifier">directory?</span> }
+      <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'lib'</span>
+        <span class="ruby-identifier">print_dir</span> <span class="ruby-identifier">pn</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">pnn</span><span class="ruby-operator">|</span>
+          <span class="ruby-comment cmt"># dylibs have multiple symlinks and we don't care about them</span>
+          (<span class="ruby-identifier">pnn</span>.<span class="ruby-identifier">extname</span> <span class="ruby-operator">==</span> <span class="ruby-value str">'.dylib'</span> <span class="ruby-keyword kw">or</span> <span class="ruby-identifier">pnn</span>.<span class="ruby-identifier">extname</span> <span class="ruby-operator">==</span> <span class="ruby-value str">'.pc'</span>) <span class="ruby-keyword kw">and</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">pnn</span>.<span class="ruby-identifier">symlink?</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">pn</span>.<span class="ruby-identifier">directory?</span>
+          <span class="ruby-identifier">print_dir</span> <span class="ruby-identifier">pn</span>
+        <span class="ruby-keyword kw">elsif</span> <span class="ruby-keyword kw">not</span> <span class="ruby-constant">FORMULA_META_FILES</span>.<span class="ruby-identifier">include?</span> <span class="ruby-identifier">pn</span>.<span class="ruby-identifier">basename</span>.<span class="ruby-identifier">to_s</span>
+          <span class="ruby-identifier">puts</span> <span class="ruby-identifier">pn</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

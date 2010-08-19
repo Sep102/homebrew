@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>watch_out_for_spill (beer_events.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File beer_events.rb, line 161</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">watch_out_for_spill</span>
+    <span class="ruby-comment cmt"># Disable the RubyCocoa thread hook as apparently Laurent did not apply the</span>
+    <span class="ruby-comment cmt"># thread patches to the OS X system Ruby</span>
+    <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'RUBYCOCOA_THREAD_HOOK_DISABLE'</span>] = <span class="ruby-value str">'kampai'</span>
+    
+    <span class="ruby-constant">Thread</span>.<span class="ruby-identifier">new</span> { <span class="ruby-constant">OSX</span>.<span class="ruby-constant">CFRunLoopRun</span>() }
+    
+    <span class="ruby-identifier">start</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>
+    <span class="ruby-identifier">dog</span> = <span class="ruby-constant">Rucola</span><span class="ruby-operator">::</span><span class="ruby-constant">FSEvents</span>.<span class="ruby-identifier">start_watching</span>(<span class="ruby-operator">*</span><span class="ruby-constant">HOMEBREW_KEEP_DRY</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">events</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">spill</span> = <span class="ruby-identifier">events</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">e</span><span class="ruby-operator">|</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">files</span> }.<span class="ruby-identifier">flatten</span>
+      <span class="ruby-identifier">spill</span>.<span class="ruby-identifier">reject!</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">mtime</span>(<span class="ruby-identifier">f</span>) <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">start</span> }
+      <span class="ruby-identifier">spill</span>.<span class="ruby-identifier">reject!</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">path</span><span class="ruby-operator">|</span> <span class="ruby-identifier">path</span> <span class="ruby-operator">=~</span> <span class="ruby-node">/^#{HOMEBREW_PREFIX}/</span> }
+      <span class="ruby-comment cmt"># irrelevent files that change a lot</span>
+      <span class="ruby-identifier">spill</span>.<span class="ruby-identifier">reject!</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">path</span><span class="ruby-operator">|</span> <span class="ruby-identifier">path</span> <span class="ruby-operator">==</span> <span class="ruby-value str">&quot;/Library/Preferences/SystemConfiguration/com.apple.PowerManagement.plist-lock&quot;</span> }
+      <span class="ruby-identifier">spill</span>.<span class="ruby-identifier">reject!</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">path</span><span class="ruby-operator">|</span> <span class="ruby-identifier">path</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">%r{^(/System)?/Library/Caches/}</span> }
+      <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">spill</span>.<span class="ruby-identifier">empty?</span>
+        <span class="ruby-identifier">opoo</span> <span class="ruby-value str">&quot;Detected installation of files outside the Homebrew prefix:&quot;</span>
+        <span class="ruby-identifier">puts</span> <span class="ruby-operator">*</span><span class="ruby-identifier">spill</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">yield</span>
+  <span class="ruby-keyword kw">ensure</span>
+    <span class="ruby-identifier">dog</span>.<span class="ruby-identifier">stop</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>test_change_make_var_empty_2 (InreplaceTest)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File test/test_inreplace.rb, line 21</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_change_make_var_empty_2</span>
+    <span class="ruby-comment cmt"># Replace empty flag</span>
+    <span class="ruby-identifier">s1</span>=<span class="ruby-value str">&quot;FLAG = \nmv file_a file_b&quot;</span>
+    <span class="ruby-identifier">s1</span>.<span class="ruby-identifier">extend</span>(<span class="ruby-constant">HomebrewInreplaceExtension</span>)
+    <span class="ruby-identifier">s1</span>.<span class="ruby-identifier">change_make_var!</span> <span class="ruby-value str">&quot;FLAG&quot;</span>, <span class="ruby-value str">&quot;def&quot;</span>
+    <span class="ruby-identifier">assert_equal</span> <span class="ruby-value str">&quot;FLAG=def\nmv file_a file_b&quot;</span>, <span class="ruby-identifier">s1</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

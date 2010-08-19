@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>install_p (Pathname)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File extend/pathname.rb, line 16</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">install_p</span> <span class="ruby-identifier">src</span>, <span class="ruby-identifier">new_basename</span> = <span class="ruby-keyword kw">nil</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">new_basename</span>
+      <span class="ruby-identifier">new_basename</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-identifier">new_basename</span>) <span class="ruby-comment cmt"># rationale: see Pathname.+</span>
+      <span class="ruby-identifier">dst</span> = <span class="ruby-keyword kw">self</span><span class="ruby-operator">+</span><span class="ruby-identifier">new_basename</span>
+      <span class="ruby-identifier">return_value</span> =<span class="ruby-constant">Pathname</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">dst</span>)
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">dst</span> = <span class="ruby-keyword kw">self</span>
+      <span class="ruby-identifier">return_value</span> = <span class="ruby-keyword kw">self</span><span class="ruby-operator">+</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-identifier">src</span>)
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-identifier">src</span> = <span class="ruby-identifier">src</span>.<span class="ruby-identifier">to_s</span>
+    <span class="ruby-identifier">dst</span> = <span class="ruby-identifier">dst</span>.<span class="ruby-identifier">to_s</span>
+
+    <span class="ruby-comment cmt"># if it's a symlink, don't resolve it to a file because if we are moving</span>
+    <span class="ruby-comment cmt"># files one by one, it's likely we will break the symlink by moving what</span>
+    <span class="ruby-comment cmt"># it points to before we move it</span>
+    <span class="ruby-comment cmt"># and also broken symlinks are not the end of the world</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;#{src} does not exist&quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">symlink?</span> <span class="ruby-identifier">src</span> <span class="ruby-keyword kw">or</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span> <span class="ruby-identifier">src</span>
+
+    <span class="ruby-identifier">mkpath</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">symlink?</span> <span class="ruby-identifier">src</span>
+      <span class="ruby-comment cmt"># we use the BSD mv command because FileUtils copies the target and</span>
+      <span class="ruby-comment cmt"># not the link! I'm beginning to wish I'd used Python quite honestly!</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">Kernel</span>.<span class="ruby-identifier">system</span> <span class="ruby-value str">'mv'</span>, <span class="ruby-identifier">src</span>, <span class="ruby-identifier">dst</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-comment cmt"># we mv when possible as it is faster and you should only be using</span>
+      <span class="ruby-comment cmt"># this function when installing from the temporary build directory</span>
+      <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">mv</span> <span class="ruby-identifier">src</span>, <span class="ruby-identifier">dst</span>
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">return_value</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

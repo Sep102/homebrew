@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>test_pathname_plus_yeast (BeerTasting)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File test/test_bucket.rb, line 138</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_pathname_plus_yeast</span>
+    <span class="ruby-identifier">nostdout</span> <span class="ruby-keyword kw">do</span>
+      <span class="ruby-identifier">assert_nothing_raised</span> <span class="ruby-keyword kw">do</span>
+        <span class="ruby-identifier">assert</span> <span class="ruby-operator">!</span><span class="ruby-constant">Pathname</span>.<span class="ruby-identifier">getwd</span>.<span class="ruby-identifier">rmdir_if_possible</span>
+        <span class="ruby-identifier">assert</span> <span class="ruby-operator">!</span><span class="ruby-constant">Pathname</span>.<span class="ruby-identifier">getwd</span>.<span class="ruby-identifier">abv</span>.<span class="ruby-identifier">empty?</span>
+        
+        <span class="ruby-identifier">abcd</span>=<span class="ruby-identifier">orig_abcd</span>=<span class="ruby-constant">HOMEBREW_CACHE</span><span class="ruby-operator">+</span><span class="ruby-value str">'abcd'</span>
+        <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">cp</span> <span class="ruby-constant">ABS__FILE__</span>, <span class="ruby-identifier">abcd</span>
+        <span class="ruby-identifier">abcd</span>=<span class="ruby-constant">HOMEBREW_PREFIX</span>.<span class="ruby-identifier">install</span> <span class="ruby-identifier">abcd</span>
+        <span class="ruby-identifier">assert</span> (<span class="ruby-constant">HOMEBREW_PREFIX</span><span class="ruby-operator">+</span><span class="ruby-identifier">orig_abcd</span>.<span class="ruby-identifier">basename</span>).<span class="ruby-identifier">exist?</span>
+        <span class="ruby-identifier">assert</span> <span class="ruby-identifier">abcd</span>.<span class="ruby-identifier">exist?</span>
+        <span class="ruby-identifier">assert_equal</span> <span class="ruby-constant">HOMEBREW_PREFIX</span><span class="ruby-operator">+</span><span class="ruby-value str">'abcd'</span>, <span class="ruby-identifier">abcd</span>
+
+        <span class="ruby-identifier">assert_raises</span>(<span class="ruby-constant">RuntimeError</span>) {<span class="ruby-identifier">abcd</span>.<span class="ruby-identifier">write</span> <span class="ruby-value str">'CONTENT'</span>}
+        <span class="ruby-identifier">abcd</span>.<span class="ruby-identifier">unlink</span>
+        <span class="ruby-identifier">abcd</span>.<span class="ruby-identifier">write</span> <span class="ruby-value str">'HELLOWORLD'</span>
+        <span class="ruby-identifier">assert_equal</span> <span class="ruby-value str">'HELLOWORLD'</span>, <span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">abcd</span>)
+        
+        <span class="ruby-identifier">assert</span> <span class="ruby-operator">!</span><span class="ruby-identifier">orig_abcd</span>.<span class="ruby-identifier">exist?</span>
+        <span class="ruby-identifier">rv</span>=<span class="ruby-identifier">abcd</span>.<span class="ruby-identifier">cp</span> <span class="ruby-identifier">orig_abcd</span>
+        <span class="ruby-identifier">assert</span> <span class="ruby-identifier">orig_abcd</span>.<span class="ruby-identifier">exist?</span>
+        <span class="ruby-identifier">assert_equal</span> <span class="ruby-identifier">rv</span>, <span class="ruby-identifier">orig_abcd</span>
+
+        <span class="ruby-identifier">orig_abcd</span>.<span class="ruby-identifier">unlink</span>
+        <span class="ruby-identifier">assert</span> <span class="ruby-operator">!</span><span class="ruby-identifier">orig_abcd</span>.<span class="ruby-identifier">exist?</span>
+        <span class="ruby-identifier">abcd</span>.<span class="ruby-identifier">cp</span> <span class="ruby-constant">HOMEBREW_CACHE</span>
+        <span class="ruby-identifier">assert</span> <span class="ruby-identifier">orig_abcd</span>.<span class="ruby-identifier">exist?</span>
+
+        <span class="ruby-constant">HOMEBREW_CACHE</span>.<span class="ruby-identifier">chmod_R</span> <span class="ruby-value">0777</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

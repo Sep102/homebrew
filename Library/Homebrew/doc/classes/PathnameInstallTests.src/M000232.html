@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>test_install_rename (PathnameInstallTests)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File test/test_pathname_install.rb, line 72</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_install_rename</span>
+    <span class="ruby-identifier">with_temp_folder</span> <span class="ruby-keyword kw">do</span>
+      <span class="ruby-constant">TARGET_FOLDER</span>.<span class="ruby-identifier">install</span> <span class="ruby-value str">'a.txt'</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'c.txt'</span>
+      
+      <span class="ruby-identifier">assert</span>  (<span class="ruby-constant">TARGET_FOLDER</span><span class="ruby-operator">+</span><span class="ruby-value str">'c.txt'</span>).<span class="ruby-identifier">exist?</span>, <span class="ruby-value str">&quot;c.txt not installed.&quot;</span>
+      <span class="ruby-identifier">assert</span> <span class="ruby-operator">!</span>(<span class="ruby-constant">TARGET_FOLDER</span><span class="ruby-operator">+</span><span class="ruby-value str">'a.txt'</span>).<span class="ruby-identifier">exist?</span>, <span class="ruby-value str">&quot;a.txt was installed but not renamed.&quot;</span>
+      <span class="ruby-identifier">assert</span> <span class="ruby-operator">!</span>(<span class="ruby-constant">TARGET_FOLDER</span><span class="ruby-operator">+</span><span class="ruby-value str">'b.txt'</span>).<span class="ruby-identifier">exist?</span>, <span class="ruby-value str">&quot;b.txt was installed.&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

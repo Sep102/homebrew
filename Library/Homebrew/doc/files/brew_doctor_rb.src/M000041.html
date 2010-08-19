@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>check_for_symlinked_cellar (brew_doctor.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File brew_doctor.rb, line 378</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">check_for_symlinked_cellar</span>
+  <span class="ruby-keyword kw">if</span> <span class="ruby-constant">HOMEBREW_CELLAR</span>.<span class="ruby-identifier">symlink?</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Symlinked Cellars can cause problems.\nYour Homebrew Cellar is a symlink: \#{HOMEBREW_CELLAR}\nwhich resolves to: \#{HOMEBREW_CELLAR.realpath}\n\nThe recommended Homebrew installations are either:\n(A) Have Cellar be a real folder inside of your HOMEBREW_PREFIX\n(B) Symlink \&quot;bin/brew\&quot; into your prefix, but don't symlink \&quot;Cellar\&quot;.\n\nOlder installations of Homebrew may have created a symlinked Cellar, but this can\ncause problems when two formula install to locations that are mapped on top of each\nother during the linking step.\n\n&quot;</span>.<span class="ruby-identifier">undent</span>
+  <span class="ruby-keyword kw">end</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

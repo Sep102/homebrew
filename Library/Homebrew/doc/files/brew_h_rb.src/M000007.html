@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>info (brew.h.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File brew.h.rb, line 181</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">info</span> <span class="ruby-identifier">f</span>
+  <span class="ruby-identifier">exec</span> <span class="ruby-value str">'open'</span>, <span class="ruby-identifier">github_info</span>(<span class="ruby-identifier">f</span>.<span class="ruby-identifier">name</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-constant">ARGV</span>.<span class="ruby-identifier">flag?</span> <span class="ruby-value str">'--github'</span>
+
+  <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;#{f.name} #{f.version}&quot;</span>
+  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">homepage</span>
+
+  <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Depends on: #{f.deps.join(', ')}&quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">deps</span>.<span class="ruby-identifier">empty?</span>
+
+  <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">prefix</span>.<span class="ruby-identifier">parent</span>.<span class="ruby-identifier">directory?</span>
+    <span class="ruby-identifier">kids</span>=<span class="ruby-identifier">f</span>.<span class="ruby-identifier">prefix</span>.<span class="ruby-identifier">parent</span>.<span class="ruby-identifier">children</span>
+    <span class="ruby-identifier">kids</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">keg</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">print</span> <span class="ruby-node">&quot;#{keg} (#{keg.abv})&quot;</span>
+      <span class="ruby-identifier">print</span> <span class="ruby-value str">&quot; *&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">prefix</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">keg</span> <span class="ruby-keyword kw">and</span> <span class="ruby-identifier">kids</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>
+      <span class="ruby-identifier">puts</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">else</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Not installed&quot;</span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">caveats</span>
+    <span class="ruby-identifier">puts</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">caveats</span>
+    <span class="ruby-identifier">puts</span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-identifier">history</span> = <span class="ruby-identifier">github_info</span>(<span class="ruby-identifier">f</span>.<span class="ruby-identifier">name</span>)
+  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">history</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">history</span>
+
+<span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">FormulaUnavailableError</span>
+  <span class="ruby-comment cmt"># check for DIY installation</span>
+  <span class="ruby-identifier">d</span>=<span class="ruby-constant">HOMEBREW_PREFIX</span><span class="ruby-operator">+</span><span class="ruby-identifier">name</span>
+  <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">d</span>.<span class="ruby-identifier">directory?</span>
+    <span class="ruby-identifier">ohai</span> <span class="ruby-value str">&quot;DIY Installation&quot;</span>
+    <span class="ruby-identifier">d</span>.<span class="ruby-identifier">children</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">keg</span><span class="ruby-operator">|</span> <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;#{keg} (#{keg.abv})&quot;</span>}
+  <span class="ruby-keyword kw">else</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;No such formula or keg&quot;</span>
+  <span class="ruby-keyword kw">end</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>report (RefreshBrew)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File update.rb, line 97</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">report</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Updated Homebrew from #{initial_revision[0,8]} to #{current_revision[0,8]}.&quot;</span>
+    <span class="ruby-comment cmt">## New Formulae</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">pending_new_formulae?</span>
+      <span class="ruby-identifier">ohai</span> <span class="ruby-value str">&quot;The following formulae are new:&quot;</span>
+      <span class="ruby-identifier">puts_columns</span> <span class="ruby-identifier">added_formulae</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-comment cmt">## Deleted Formulae</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">deleted_formulae?</span>
+      <span class="ruby-identifier">ohai</span> <span class="ruby-value str">&quot;The following formulae were removed:&quot;</span>
+      <span class="ruby-identifier">puts_columns</span> <span class="ruby-identifier">deleted_formulae</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-comment cmt">## Updated Formulae</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">pending_formulae_changes?</span>
+      <span class="ruby-identifier">ohai</span> <span class="ruby-value str">&quot;The following formulae were updated:&quot;</span>
+      <span class="ruby-identifier">puts_columns</span> <span class="ruby-identifier">updated_formulae</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;No formulae were updated.&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-comment cmt">## New examples</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">pending_new_examples?</span>
+      <span class="ruby-identifier">ohai</span> <span class="ruby-value str">&quot;The following external commands are new:&quot;</span>
+      <span class="ruby-identifier">puts_columns</span> <span class="ruby-identifier">added_examples</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-comment cmt">## Deleted examples</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">deleted_examples?</span>
+      <span class="ruby-identifier">ohai</span> <span class="ruby-value str">&quot;The following external commands were removed:&quot;</span>
+      <span class="ruby-identifier">puts_columns</span> <span class="ruby-identifier">deleted_examples</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-comment cmt">## Updated Formulae</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">pending_examples_changes?</span>
+      <span class="ruby-identifier">ohai</span> <span class="ruby-value str">&quot;The following external commands were updated:&quot;</span>
+      <span class="ruby-identifier">puts_columns</span> <span class="ruby-identifier">updated_examples</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;No external commands were updated.&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>check_pkg_config_paths (brew_doctor.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File brew_doctor.rb, line 284</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">check_pkg_config_paths</span>
+  <span class="ruby-identifier">binary</span> = <span class="ruby-value">`/usr/bin/which pkg-config`</span>.<span class="ruby-identifier">chomp</span>
+  <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">binary</span>.<span class="ruby-identifier">empty?</span>
+
+  <span class="ruby-comment cmt"># Use the debug output to determine which paths are searched</span>
+  <span class="ruby-identifier">pkg_config_paths</span> = []
+
+  <span class="ruby-identifier">debug_output</span> = <span class="ruby-value">`pkg-config --debug 2&gt;&amp;1`</span>
+  <span class="ruby-identifier">debug_output</span>.<span class="ruby-identifier">split</span>(<span class="ruby-value str">&quot;\n&quot;</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">line</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">line</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/Scanning directory '(.*)'/</span>
+    <span class="ruby-identifier">pkg_config_paths</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">$1</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">$1</span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-comment cmt"># Check that all expected paths are being searched</span>
+  <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">pkg_config_paths</span>.<span class="ruby-identifier">include?</span> <span class="ruby-value str">&quot;/usr/X11/lib/pkgconfig&quot;</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Your pkg-config is not checking \&quot;/usr/X11/lib/pkgconfig\&quot; for packages.\nEarlier versions of the pkg-config formula did not add this path\nto the search path, which means that other formula may not be able\nto find certain dependencies.\n\nTo resolve this issue, re-brew pkg-config with:\nbrew rm pkg-config &amp;&amp; brew install pkg-config\n\n&quot;</span>.<span class="ruby-identifier">undent</span>
+  <span class="ruby-keyword kw">end</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

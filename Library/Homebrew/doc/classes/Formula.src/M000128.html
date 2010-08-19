@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>factory (Formula)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File formula.rb, line 249</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">factory</span> <span class="ruby-identifier">name</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">name</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">kind_of?</span> <span class="ruby-constant">Formula</span>
+    <span class="ruby-identifier">path</span> = <span class="ruby-constant">Pathname</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">name</span>)
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">absolute?</span>
+      <span class="ruby-identifier">require</span> <span class="ruby-identifier">name</span>
+      <span class="ruby-identifier">name</span> = <span class="ruby-identifier">path</span>.<span class="ruby-identifier">stem</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">require</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">path</span>(<span class="ruby-identifier">name</span>)
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">begin</span>
+      <span class="ruby-identifier">klass_name</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">class_s</span>(<span class="ruby-identifier">name</span>)
+      <span class="ruby-identifier">klass</span> = <span class="ruby-identifier">eval</span>(<span class="ruby-identifier">klass_name</span>)
+    <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">NameError</span>
+      <span class="ruby-comment cmt"># TODO really this text should be encoded into the exception</span>
+      <span class="ruby-comment cmt"># and only shown if the UI deems it correct to show it</span>
+      <span class="ruby-identifier">onoe</span> <span class="ruby-node">&quot;class \&quot;#{klass_name}\&quot; expected but not found in #{name}.rb&quot;</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Double-check the name of the class in that formula.&quot;</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">LoadError</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">name</span>)
+  <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">LoadError</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">FormulaUnavailableError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">name</span>)
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

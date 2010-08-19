@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>system (Formula)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File formula.rb, line 299</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">system</span> <span class="ruby-identifier">cmd</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>
+    <span class="ruby-identifier">ohai</span> <span class="ruby-node">&quot;#{cmd} #{args*' '}&quot;</span>.<span class="ruby-identifier">strip</span>
+
+    <span class="ruby-keyword kw">if</span> <span class="ruby-constant">ARGV</span>.<span class="ruby-identifier">verbose?</span>
+      <span class="ruby-identifier">safe_system</span> <span class="ruby-identifier">cmd</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">rd</span>, <span class="ruby-identifier">wr</span> = <span class="ruby-constant">IO</span>.<span class="ruby-identifier">pipe</span>
+      <span class="ruby-identifier">pid</span> = <span class="ruby-identifier">fork</span> <span class="ruby-keyword kw">do</span>
+        <span class="ruby-identifier">rd</span>.<span class="ruby-identifier">close</span>
+        <span class="ruby-identifier">$stdout</span>.<span class="ruby-identifier">reopen</span> <span class="ruby-identifier">wr</span>
+        <span class="ruby-identifier">$stderr</span>.<span class="ruby-identifier">reopen</span> <span class="ruby-identifier">wr</span>
+        <span class="ruby-identifier">exec</span>(<span class="ruby-identifier">cmd</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>) <span class="ruby-keyword kw">rescue</span> <span class="ruby-keyword kw">nil</span>
+        <span class="ruby-identifier">exit!</span> <span class="ruby-value">1</span> <span class="ruby-comment cmt"># never gets here unless exec threw or failed</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-identifier">wr</span>.<span class="ruby-identifier">close</span>
+      <span class="ruby-identifier">out</span> = <span class="ruby-value str">''</span>
+      <span class="ruby-identifier">out</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">rd</span>.<span class="ruby-identifier">read</span> <span class="ruby-keyword kw">until</span> <span class="ruby-identifier">rd</span>.<span class="ruby-identifier">eof?</span>
+      <span class="ruby-constant">Process</span>.<span class="ruby-identifier">wait</span>
+      <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">$?</span>.<span class="ruby-identifier">success?</span>
+        <span class="ruby-identifier">puts</span> <span class="ruby-identifier">out</span>
+        <span class="ruby-identifier">raise</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">SystemCallError</span>
+    <span class="ruby-comment cmt"># usually because exec could not be find the command that was requested</span>
+    <span class="ruby-identifier">raise</span>
+  <span class="ruby-keyword kw">rescue</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">BuildError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">cmd</span>, <span class="ruby-identifier">args</span>, <span class="ruby-identifier">$?</span>)
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

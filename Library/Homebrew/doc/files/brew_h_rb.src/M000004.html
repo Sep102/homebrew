@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>__make (brew.h.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File brew.h.rb, line 36</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">__make</span> <span class="ruby-identifier">url</span>, <span class="ruby-identifier">name</span>
+  <span class="ruby-identifier">require</span> <span class="ruby-value str">'formula'</span>
+  <span class="ruby-identifier">require</span> <span class="ruby-value str">'digest'</span>
+  <span class="ruby-identifier">require</span> <span class="ruby-value str">'erb'</span>
+
+  <span class="ruby-identifier">path</span> = <span class="ruby-constant">Formula</span>.<span class="ruby-identifier">path</span>(<span class="ruby-identifier">name</span>)
+  <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;#{path} already exists&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">exist?</span>
+
+  <span class="ruby-keyword kw">if</span> <span class="ruby-constant">Formula</span>.<span class="ruby-identifier">aliases</span>.<span class="ruby-identifier">include?</span> <span class="ruby-identifier">name</span> <span class="ruby-keyword kw">and</span> <span class="ruby-keyword kw">not</span> <span class="ruby-constant">ARGV</span>.<span class="ruby-identifier">force?</span>
+    <span class="ruby-identifier">realname</span> = <span class="ruby-constant">HOMEBREW_REPOSITORY</span>.<span class="ruby-identifier">join</span>(<span class="ruby-node">&quot;Library/Aliases/#{name}&quot;</span>).<span class="ruby-identifier">realpath</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-value str">'.rb'</span>)
+    <span class="ruby-identifier">raise</span> <span class="ruby-value str">&quot;The formula \#{realname} is already aliased to \#{name}\nPlease check that you are not creating a duplicate.\nTo force creation use --force.\n&quot;</span>.<span class="ruby-identifier">undent</span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-keyword kw">if</span> <span class="ruby-constant">ARGV</span>.<span class="ruby-identifier">include?</span> <span class="ruby-value str">'--cmake'</span>
+    <span class="ruby-identifier">mode</span> = <span class="ruby-identifier">:cmake</span>
+  <span class="ruby-keyword kw">elsif</span> <span class="ruby-constant">ARGV</span>.<span class="ruby-identifier">include?</span> <span class="ruby-value str">'--autotools'</span>
+    <span class="ruby-identifier">mode</span> = <span class="ruby-identifier">:autotools</span>
+  <span class="ruby-keyword kw">else</span>
+    <span class="ruby-identifier">mode</span> = <span class="ruby-keyword kw">nil</span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-identifier">version</span> = <span class="ruby-constant">Pathname</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">url</span>).<span class="ruby-identifier">version</span>
+  <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">version</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">opoo</span> <span class="ruby-value str">&quot;Version cannot be determined from URL.&quot;</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;You'll need to add an explicit 'version' to the formula.&quot;</span>
+  <span class="ruby-keyword kw">else</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Version detected as #{version}.&quot;</span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-identifier">md5</span> = <span class="ruby-value str">''</span>
+  <span class="ruby-keyword kw">if</span> <span class="ruby-constant">ARGV</span>.<span class="ruby-identifier">include?</span> <span class="ruby-value str">&quot;--cache&quot;</span> <span class="ruby-keyword kw">and</span> <span class="ruby-identifier">version</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">nil</span>
+    <span class="ruby-identifier">strategy</span> = <span class="ruby-identifier">detect_download_strategy</span> <span class="ruby-identifier">url</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">strategy</span> <span class="ruby-operator">==</span> <span class="ruby-constant">CurlDownloadStrategy</span>
+      <span class="ruby-identifier">d</span> = <span class="ruby-identifier">strategy</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">url</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">version</span>, <span class="ruby-keyword kw">nil</span>
+      <span class="ruby-identifier">the_tarball</span> = <span class="ruby-identifier">d</span>.<span class="ruby-identifier">fetch</span>
+      <span class="ruby-identifier">md5</span> = <span class="ruby-identifier">the_tarball</span>.<span class="ruby-identifier">md5</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;MD5 is #{md5}&quot;</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;--cache requested, but we can only cache formulas that use Curl.&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-identifier">formula_template</span> = <span class="ruby-value str">&quot;require 'formula'\n\nclass \#{Formula.class_s name} &lt;Formula\nurl '\#{url}'\nhomepage ''\nmd5 '\#{md5}'\n\n&lt;% if mode == :cmake %&gt;\ndepends_on 'cmake'\n&lt;% elsif mode == nil %&gt;\n# depends_on 'cmake'\n&lt;% end %&gt;\n\ndef install\n&lt;% if mode == :cmake %&gt;\nsystem \&quot;cmake . \\\#{std_cmake_parameters}\&quot;\n&lt;% elsif mode == :autotools %&gt;\nsystem \&quot;./configure\&quot;, \&quot;--prefix=\\\#{prefix}\&quot;, \&quot;--disable-debug\&quot;, \&quot;--disable-dependency-tracking\&quot;\n&lt;% else %&gt;\nsystem \&quot;./configure\&quot;, \&quot;--prefix=\\\#{prefix}\&quot;, \&quot;--disable-debug\&quot;, \&quot;--disable-dependency-tracking\&quot;\n# system \&quot;cmake . \\\#{std_cmake_parameters}\&quot;\n&lt;% end %&gt;\nsystem \&quot;make install\&quot;\nend\nend\n&quot;</span>
+
+  <span class="ruby-identifier">path</span>.<span class="ruby-identifier">write</span>(<span class="ruby-constant">ERB</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">formula_template</span>, <span class="ruby-keyword kw">nil</span>, <span class="ruby-value str">'&gt;'</span>).<span class="ruby-identifier">result</span>(<span class="ruby-identifier">binding</span>))
+  <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">path</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

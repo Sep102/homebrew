@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>link (Keg)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File keg.rb, line 39</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">link</span>
+    <span class="ruby-identifier">$n</span>=<span class="ruby-value">0</span>
+    <span class="ruby-identifier">$d</span>=<span class="ruby-value">0</span>
+
+    <span class="ruby-identifier">share_mkpaths</span>=<span class="ruby-node">%w[aclocal doc info locale man]</span><span class="ruby-operator">+</span>(<span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-value">9</span>).<span class="ruby-identifier">collect</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">x</span><span class="ruby-operator">|</span><span class="ruby-node">&quot;man/man#{x}&quot;</span>}
+
+    <span class="ruby-comment cmt"># yeah indeed, you have to force anything you need in the main tree into</span>
+    <span class="ruby-comment cmt"># these dirs REMEMBER that *NOT* everything needs to be in the main tree</span>
+    <span class="ruby-identifier">link_dir</span>(<span class="ruby-value str">'etc'</span>) {<span class="ruby-identifier">:mkpath</span>}
+    <span class="ruby-identifier">link_dir</span>(<span class="ruby-value str">'bin'</span>) {<span class="ruby-identifier">:skip</span>}
+    <span class="ruby-identifier">link_dir</span>(<span class="ruby-value str">'sbin'</span>) {<span class="ruby-identifier">:link</span>}
+    <span class="ruby-identifier">link_dir</span>(<span class="ruby-value str">'include'</span>) {<span class="ruby-identifier">:link</span>}
+    <span class="ruby-identifier">link_dir</span>(<span class="ruby-value str">'share'</span>) {<span class="ruby-operator">|</span><span class="ruby-identifier">path</span><span class="ruby-operator">|</span> <span class="ruby-identifier">:mkpath</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">share_mkpaths</span>.<span class="ruby-identifier">include?</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">to_s</span>}
+
+    <span class="ruby-identifier">link_dir</span>(<span class="ruby-value str">'lib'</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">path</span><span class="ruby-operator">|</span>
+      <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">to_s</span>
+      <span class="ruby-comment cmt"># pkg-config database gets explicitly created</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'pkgconfig'</span> <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">:mkpath</span>
+      <span class="ruby-comment cmt"># lib/language folders also get explicitly created</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'ghc'</span> <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">:mkpath</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'lua'</span> <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">:mkpath</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'node'</span> <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">:mkpath</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'ocaml'</span> <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">:mkpath</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/^perl5/</span> <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">:mkpath</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'php'</span> <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">:mkpath</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/^python[23]\.\d$/</span> <span class="ruby-keyword kw">then</span> <span class="ruby-identifier">:mkpath</span>
+      <span class="ruby-keyword kw">else</span> <span class="ruby-identifier">:link</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">$n</span><span class="ruby-operator">+</span><span class="ruby-identifier">$d</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

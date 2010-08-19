@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>test_brew_h (BeerTasting)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File test/test_bucket.rb, line 81</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_brew_h</span>
+    <span class="ruby-identifier">nostdout</span> <span class="ruby-keyword kw">do</span>
+      <span class="ruby-identifier">assert_nothing_raised</span> <span class="ruby-keyword kw">do</span>
+        <span class="ruby-identifier">f</span>=<span class="ruby-constant">TestBall</span>.<span class="ruby-identifier">new</span>
+        <span class="ruby-identifier">make</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">url</span>
+        <span class="ruby-identifier">info</span> <span class="ruby-identifier">f</span>
+        <span class="ruby-identifier">clean</span> <span class="ruby-identifier">f</span>
+        <span class="ruby-identifier">prune</span>
+        <span class="ruby-comment cmt">#TODO test diy function too</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

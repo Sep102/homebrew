@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>new (TestZip)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File test/test_bucket.rb, line 19</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>
+    <span class="ruby-identifier">zip</span>=<span class="ruby-constant">HOMEBREW_CACHE</span>.<span class="ruby-identifier">parent</span><span class="ruby-operator">+</span><span class="ruby-value str">'test-0.1.zip'</span>
+    <span class="ruby-constant">Kernel</span>.<span class="ruby-identifier">system</span> <span class="ruby-value str">'/usr/bin/zip'</span>, <span class="ruby-value str">'-0'</span>, <span class="ruby-identifier">zip</span>, <span class="ruby-constant">ABS__FILE__</span>
+    <span class="ruby-ivar">@url</span>=<span class="ruby-node">&quot;file://#{zip}&quot;</span>
+    <span class="ruby-ivar">@homepage</span> = <span class="ruby-value str">'http://example.com/'</span>
+    <span class="ruby-keyword kw">super</span> <span class="ruby-value str">'testzip'</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

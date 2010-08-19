@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>check_for_stray_dylibs (brew_doctor.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File brew_doctor.rb, line 32</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">check_for_stray_dylibs</span>
+  <span class="ruby-identifier">unbrewed_dylibs</span> = <span class="ruby-constant">Dir</span>[<span class="ruby-value str">'/usr/local/lib/*.dylib'</span>].<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">file?</span> <span class="ruby-identifier">f</span> <span class="ruby-keyword kw">and</span> <span class="ruby-keyword kw">not</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">symlink?</span> <span class="ruby-identifier">f</span> }
+
+  <span class="ruby-comment cmt"># Dylibs which are generally OK should be added to this list,</span>
+  <span class="ruby-comment cmt"># with a short description of the software they come with.</span>
+  <span class="ruby-identifier">white_list</span> = {
+    <span class="ruby-value str">&quot;libfuse.2.dylib&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;MacFuse&quot;</span>,
+    <span class="ruby-value str">&quot;libfuse_ino64.2.dylib&quot;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">&quot;MacFuse&quot;</span>
+  }
+
+  <span class="ruby-identifier">bad_dylibs</span> = <span class="ruby-identifier">unbrewed_dylibs</span>.<span class="ruby-identifier">reject</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">d</span><span class="ruby-operator">|</span> <span class="ruby-identifier">white_list</span>.<span class="ruby-identifier">key?</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-identifier">d</span>) }
+  <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">bad_dylibs</span>.<span class="ruby-identifier">empty?</span>
+
+  <span class="ruby-identifier">opoo</span> <span class="ruby-value str">&quot;Unbrewed dylibs were found in /usr/local/lib&quot;</span>
+  <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;You have unbrewed dylibs in /usr/local/lib. If you didn't put them there on purpose,\nthey could cause problems when building Homebrew formulae.\n\nUnexpected dylibs (delete if they are no longer needed):\n&quot;</span>.<span class="ruby-identifier">undent</span>
+  <span class="ruby-identifier">puts</span> <span class="ruby-operator">*</span><span class="ruby-identifier">bad_dylibs</span>.<span class="ruby-identifier">collect</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-node">&quot;    #{f}&quot;</span> }
+  <span class="ruby-identifier">puts</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

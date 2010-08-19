@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>macports_or_fink_installed? (brew.h.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File brew.h.rb, line 347</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">macports_or_fink_installed?</span>
+  <span class="ruby-comment cmt"># See these issues for some history:</span>
+  <span class="ruby-comment cmt"># http://github.com/mxcl/homebrew/issues/#issue/13</span>
+  <span class="ruby-comment cmt"># http://github.com/mxcl/homebrew/issues/#issue/41</span>
+  <span class="ruby-comment cmt"># http://github.com/mxcl/homebrew/issues/#issue/48</span>
+
+  <span class="ruby-node">%w[port fink]</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ponk</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">path</span> = <span class="ruby-node">`/usr/bin/which -s #{ponk}`</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">ponk</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-comment cmt"># we do the above check because macports can be relocated and fink may be</span>
+  <span class="ruby-comment cmt"># able to be relocated in the future. This following check is because if</span>
+  <span class="ruby-comment cmt"># fink and macports are not in the PATH but are still installed it can</span>
+  <span class="ruby-comment cmt"># *still* break the build -- because some build scripts hardcode these paths:</span>
+  <span class="ruby-node">%w[/sw/bin/fink /opt/local/bin/port]</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ponk</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">ponk</span> <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span> <span class="ruby-identifier">ponk</span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-comment cmt"># finally, sometimes people make their MacPorts or Fink read-only so they</span>
+  <span class="ruby-comment cmt"># can quickly test Homebrew out, but still in theory obey the README's </span>
+  <span class="ruby-comment cmt"># advise to rename the root directory. This doesn't work, many build scripts</span>
+  <span class="ruby-comment cmt"># error out when they try to read from these now unreadable directories.</span>
+  <span class="ruby-node">%w[/sw /opt/local]</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">path</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">path</span> = <span class="ruby-constant">Pathname</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">path</span>)
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">path</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">exist?</span> <span class="ruby-keyword kw">and</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">readable?</span>
+  <span class="ruby-keyword kw">end</span>
+  
+  <span class="ruby-keyword kw">false</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

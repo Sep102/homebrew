@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>text_for_keg_only_formula (install.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File install.rb, line 4</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">text_for_keg_only_formula</span> <span class="ruby-identifier">f</span>
+  <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">keg_only?</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">:provided_by_osx</span>
+    <span class="ruby-identifier">rationale</span> = <span class="ruby-value str">&quot;This is because the formula is already provided by OS X.&quot;</span>
+  <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">keg_only?</span>.<span class="ruby-identifier">kind_of?</span> <span class="ruby-constant">String</span>
+    <span class="ruby-identifier">rationale</span> = <span class="ruby-node">&quot;The formula provides the following rationale:\n\n#{f.keg_only?.chomp}&quot;</span>
+  <span class="ruby-keyword kw">else</span>
+    <span class="ruby-identifier">rationale</span> = <span class="ruby-value str">&quot;The formula didn't provide any rationale for this.&quot;</span>
+  <span class="ruby-keyword kw">end</span>
+  <span class="ruby-value str">&quot;\#{f.name} is keg-only. This means it is not symlinked into Homebrew's\nprefix. \#{rationale}\n\nGenerally there are no consequences of this for you, however if you build your\nown software and it requires this formula, you may want to run this command to\nlink it into the Homebrew prefix:\n\nbrew link \#{f.name}\n&quot;</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

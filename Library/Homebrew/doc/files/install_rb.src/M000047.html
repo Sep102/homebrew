@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>install (install.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File install.rb, line 55</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">install</span> <span class="ruby-identifier">f</span>
+  <span class="ruby-identifier">show_summary_heading</span> = <span class="ruby-keyword kw">false</span>
+
+  <span class="ruby-identifier">f</span>.<span class="ruby-identifier">deps</span>.<span class="ruby-identifier">uniq</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">dep</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">dep</span> = <span class="ruby-constant">Formula</span>.<span class="ruby-identifier">factory</span> <span class="ruby-identifier">dep</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">dep</span>.<span class="ruby-identifier">keg_only?</span>
+      <span class="ruby-constant">ENV</span>.<span class="ruby-identifier">prepend</span> <span class="ruby-value str">'LDFLAGS'</span>, <span class="ruby-node">&quot;-L#{dep.lib}&quot;</span>
+      <span class="ruby-constant">ENV</span>.<span class="ruby-identifier">prepend</span> <span class="ruby-value str">'CPPFLAGS'</span>, <span class="ruby-node">&quot;-I#{dep.include}&quot;</span>
+      <span class="ruby-constant">ENV</span>.<span class="ruby-identifier">prepend</span> <span class="ruby-value str">'PATH'</span>, <span class="ruby-node">&quot;#{dep.bin}&quot;</span>, <span class="ruby-value str">':'</span>
+      <span class="ruby-constant">ENV</span>.<span class="ruby-identifier">prepend</span> <span class="ruby-value str">'PKG_CONFIG_PATH'</span>, <span class="ruby-identifier">dep</span>.<span class="ruby-identifier">lib</span><span class="ruby-operator">+</span><span class="ruby-value str">'pkgconfig'</span>, <span class="ruby-value str">':'</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-keyword kw">if</span> <span class="ruby-constant">ARGV</span>.<span class="ruby-identifier">verbose?</span>
+    <span class="ruby-identifier">ohai</span> <span class="ruby-value str">&quot;Build Environment&quot;</span>
+    <span class="ruby-identifier">dump_build_env</span> <span class="ruby-constant">ENV</span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-identifier">build_time</span> = <span class="ruby-keyword kw">nil</span>
+  <span class="ruby-keyword kw">begin</span>
+    <span class="ruby-identifier">f</span>.<span class="ruby-identifier">brew</span> <span class="ruby-keyword kw">do</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-constant">ARGV</span>.<span class="ruby-identifier">flag?</span> <span class="ruby-value str">'--interactive'</span>
+        <span class="ruby-identifier">ohai</span> <span class="ruby-value str">&quot;Entering interactive mode&quot;</span>
+        <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Type `exit' to return and finalize the installation&quot;</span>
+        <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Install to this prefix: #{f.prefix}&quot;</span>
+
+        <span class="ruby-keyword kw">if</span> <span class="ruby-constant">ARGV</span>.<span class="ruby-identifier">flag?</span> <span class="ruby-value str">'--git'</span>
+          <span class="ruby-identifier">system</span> <span class="ruby-value str">&quot;git init&quot;</span>
+          <span class="ruby-identifier">system</span> <span class="ruby-value str">&quot;git add -A&quot;</span>
+          <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;This folder is now a git repo. Make your changes and then use:&quot;</span>
+          <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;  git diff | pbcopy&quot;</span>
+          <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;to copy the diff to the clipboard.&quot;</span>
+        <span class="ruby-keyword kw">end</span>
+
+        <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'HOMEBREW_DEBUG_INSTALL'</span>] = <span class="ruby-identifier">f</span>.<span class="ruby-identifier">name</span>
+        <span class="ruby-identifier">interactive_shell</span>
+        <span class="ruby-keyword kw">nil</span>
+      <span class="ruby-keyword kw">elsif</span> <span class="ruby-constant">ARGV</span>.<span class="ruby-identifier">include?</span> <span class="ruby-value str">'--help'</span>
+        <span class="ruby-identifier">system</span> <span class="ruby-value str">'./configure --help'</span>
+        <span class="ruby-identifier">exit</span> <span class="ruby-identifier">$?</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">f</span>.<span class="ruby-identifier">prefix</span>.<span class="ruby-identifier">mkpath</span>
+        <span class="ruby-identifier">beginning</span>=<span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>
+        <span class="ruby-identifier">f</span>.<span class="ruby-identifier">install</span>
+        <span class="ruby-constant">FORMULA_META_FILES</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+          <span class="ruby-keyword kw">next</span> <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span> <span class="ruby-identifier">file</span>
+          <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">mv</span> <span class="ruby-node">&quot;#{file}.txt&quot;</span>, <span class="ruby-identifier">file</span> <span class="ruby-keyword kw">rescue</span> <span class="ruby-keyword kw">nil</span>
+          <span class="ruby-identifier">f</span>.<span class="ruby-identifier">prefix</span>.<span class="ruby-identifier">install</span> <span class="ruby-identifier">file</span> <span class="ruby-keyword kw">rescue</span> <span class="ruby-keyword kw">nil</span>
+          (<span class="ruby-identifier">f</span>.<span class="ruby-identifier">prefix</span><span class="ruby-operator">+</span><span class="ruby-identifier">file</span>).<span class="ruby-identifier">chmod</span> <span class="ruby-value">0644</span> <span class="ruby-keyword kw">rescue</span> <span class="ruby-keyword kw">nil</span>
+        <span class="ruby-keyword kw">end</span>
+        <span class="ruby-identifier">build_time</span> = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span><span class="ruby-operator">-</span><span class="ruby-identifier">beginning</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Exception</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">prefix</span>.<span class="ruby-identifier">directory?</span>
+      <span class="ruby-identifier">f</span>.<span class="ruby-identifier">prefix</span>.<span class="ruby-identifier">rmtree</span>
+      <span class="ruby-identifier">f</span>.<span class="ruby-identifier">prefix</span>.<span class="ruby-identifier">parent</span>.<span class="ruby-identifier">rmdir_if_possible</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">raise</span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">caveats</span>
+    <span class="ruby-identifier">ohai</span> <span class="ruby-value str">&quot;Caveats&quot;</span>, <span class="ruby-identifier">f</span>.<span class="ruby-identifier">caveats</span>
+    <span class="ruby-identifier">show_summary_heading</span> = <span class="ruby-keyword kw">true</span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-identifier">ohai</span> <span class="ruby-value str">'Finishing up'</span> <span class="ruby-keyword kw">if</span> <span class="ruby-constant">ARGV</span>.<span class="ruby-identifier">verbose?</span>
+
+  <span class="ruby-keyword kw">begin</span>
+    <span class="ruby-identifier">clean</span> <span class="ruby-identifier">f</span>
+  <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+    <span class="ruby-identifier">opoo</span> <span class="ruby-value str">&quot;The cleaning step did not complete successfully&quot;</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Still, the installation was successful, so we will link it into your prefix&quot;</span>
+    <span class="ruby-identifier">ohai</span> <span class="ruby-identifier">e</span>, <span class="ruby-identifier">e</span>.<span class="ruby-identifier">backtrace</span> <span class="ruby-keyword kw">if</span> <span class="ruby-constant">ARGV</span>.<span class="ruby-identifier">debug?</span>
+    <span class="ruby-identifier">show_summary_heading</span> = <span class="ruby-keyword kw">true</span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Nothing was installed to #{f.prefix}&quot;</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">installed?</span>
+
+  <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">keg_only?</span>
+    <span class="ruby-identifier">ohai</span> <span class="ruby-value str">'Caveats'</span>, <span class="ruby-identifier">text_for_keg_only_formula</span>(<span class="ruby-identifier">f</span>)
+    <span class="ruby-identifier">show_summary_heading</span> = <span class="ruby-keyword kw">true</span>
+  <span class="ruby-keyword kw">else</span>
+    <span class="ruby-comment cmt"># warn the user if stuff was installed outside of their PATH</span>
+    <span class="ruby-identifier">paths</span> = <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'PATH'</span>].<span class="ruby-identifier">split</span>(<span class="ruby-value str">':'</span>).<span class="ruby-identifier">collect</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span> <span class="ruby-identifier">p</span>}
+    [<span class="ruby-identifier">f</span>.<span class="ruby-identifier">bin</span>, <span class="ruby-identifier">f</span>.<span class="ruby-identifier">sbin</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">bin</span><span class="ruby-operator">|</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">bin</span>.<span class="ruby-identifier">directory?</span>
+        <span class="ruby-identifier">rootbin</span> = (<span class="ruby-constant">HOMEBREW_PREFIX</span><span class="ruby-operator">+</span><span class="ruby-identifier">bin</span>.<span class="ruby-identifier">basename</span>).<span class="ruby-identifier">to_s</span>
+        <span class="ruby-identifier">bin</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span> <span class="ruby-identifier">bin</span>
+        <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">paths</span>.<span class="ruby-identifier">include?</span> <span class="ruby-identifier">rootbin</span>
+          <span class="ruby-identifier">opoo</span> <span class="ruby-node">&quot;#{rootbin} is not in your PATH&quot;</span>
+          <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;You can amend this by altering your ~/.bashrc file&quot;</span>
+          <span class="ruby-identifier">show_summary_heading</span> = <span class="ruby-keyword kw">true</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-comment cmt"># Check for possibly misplaced folders</span>
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">f</span>.<span class="ruby-identifier">prefix</span><span class="ruby-operator">+</span><span class="ruby-value str">'man'</span>).<span class="ruby-identifier">exist?</span>
+      <span class="ruby-identifier">opoo</span> <span class="ruby-value str">'A top-level &quot;man&quot; folder was found.'</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Homebrew requires that man pages live under share.&quot;</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-value str">'This can often be fixed by passing &quot;--mandir=#{man}&quot; to configure.'</span>
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-comment cmt"># link from Cellar to Prefix</span>
+    <span class="ruby-keyword kw">begin</span>
+      <span class="ruby-constant">Keg</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">f</span>.<span class="ruby-identifier">prefix</span>).<span class="ruby-identifier">link</span>
+    <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
+      <span class="ruby-identifier">onoe</span> <span class="ruby-value str">&quot;The linking step did not complete successfully&quot;</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;The package built, but is not symlinked into #{HOMEBREW_PREFIX}&quot;</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;You can try again using `brew link #{f.name}'&quot;</span>
+      <span class="ruby-identifier">ohai</span> <span class="ruby-identifier">e</span>, <span class="ruby-identifier">e</span>.<span class="ruby-identifier">backtrace</span> <span class="ruby-keyword kw">if</span> <span class="ruby-constant">ARGV</span>.<span class="ruby-identifier">debug?</span>
+      <span class="ruby-identifier">show_summary_heading</span> = <span class="ruby-keyword kw">true</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-identifier">ohai</span> <span class="ruby-value str">&quot;Summary&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-constant">ARGV</span>.<span class="ruby-identifier">verbose?</span> <span class="ruby-keyword kw">or</span> <span class="ruby-identifier">show_summary_heading</span>
+  <span class="ruby-identifier">print</span> <span class="ruby-node">&quot;#{f.prefix}: #{f.prefix.abv}&quot;</span>
+  <span class="ruby-identifier">print</span> <span class="ruby-node">&quot;, built in #{pretty_duration build_time}&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">build_time</span>
+  <span class="ruby-identifier">puts</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

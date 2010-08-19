@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>setup_build_environment (HomebrewEnvExtension)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File extend/ENV.rb, line 5</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">setup_build_environment</span>
+    <span class="ruby-comment cmt"># Clear CDPATH to avoid make issues that depend on changing directories</span>
+    <span class="ruby-constant">ENV</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value str">'CDPATH'</span>)
+    <span class="ruby-constant">ENV</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value str">'CPPFLAGS'</span>)
+    <span class="ruby-constant">ENV</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value str">'LDFLAGS'</span>)
+
+    <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'MAKEFLAGS'</span>]=<span class="ruby-node">&quot;-j#{Hardware.processor_count}&quot;</span>
+
+    <span class="ruby-keyword kw">unless</span> <span class="ruby-constant">HOMEBREW_PREFIX</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">==</span> <span class="ruby-value str">'/usr/local'</span>
+      <span class="ruby-comment cmt"># /usr/local is already an -isystem and -L directory so we skip it</span>
+      <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'CPPFLAGS'</span>] = <span class="ruby-node">&quot;-isystem #{HOMEBREW_PREFIX}/include&quot;</span>
+      <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'LDFLAGS'</span>] = <span class="ruby-node">&quot;-L#{HOMEBREW_PREFIX}/lib&quot;</span>
+      <span class="ruby-comment cmt"># CMake ignores the variables above</span>
+      <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'CMAKE_PREFIX_PATH'</span>] = <span class="ruby-node">&quot;#{HOMEBREW_PREFIX}&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-keyword kw">if</span> <span class="ruby-constant">MACOS_VERSION</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">10.6</span> <span class="ruby-keyword kw">and</span> (<span class="ruby-constant">ENV</span>[<span class="ruby-value str">'HOMEBREW_USE_LLVM'</span>] <span class="ruby-keyword kw">or</span> <span class="ruby-constant">ARGV</span>.<span class="ruby-identifier">include?</span> <span class="ruby-value str">'--use-llvm'</span>)
+      <span class="ruby-identifier">xcode_path</span> = <span class="ruby-value">`/usr/bin/xcode-select -print-path`</span>.<span class="ruby-identifier">chomp</span>
+      <span class="ruby-identifier">xcode_path</span> = <span class="ruby-value str">&quot;/Developer&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">xcode_path</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">empty?</span>
+      <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'CC'</span>] = <span class="ruby-node">&quot;#{xcode_path}/usr/bin/llvm-gcc&quot;</span>
+      <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'CXX'</span>] = <span class="ruby-node">&quot;#{xcode_path}/usr/bin/llvm-g++&quot;</span>
+      <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'LD'</span>] = <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'CC'</span>]
+      <span class="ruby-identifier">cflags</span> = [<span class="ruby-value str">'-O4'</span>] <span class="ruby-comment cmt"># link time optimisation baby!</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-comment cmt"># if we don't set these, many formula fail to build</span>
+      <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'CC'</span>] = <span class="ruby-value str">'/usr/bin/cc'</span>
+      <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'CXX'</span>] = <span class="ruby-value str">'/usr/bin/c++'</span>
+      <span class="ruby-identifier">cflags</span> = [<span class="ruby-value str">'-O3'</span>]
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-comment cmt"># in rare cases this may break your builds, as the tool for some reason wants</span>
+    <span class="ruby-comment cmt"># to use a specific linker, however doing this in general causes formula to</span>
+    <span class="ruby-comment cmt"># build more successfully because we are changing CC and many build systems</span>
+    <span class="ruby-comment cmt"># don't react properly to that</span>
+    <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'LD'</span>] = <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'CC'</span>]
+
+    <span class="ruby-comment cmt"># optimise all the way to eleven, references:</span>
+    <span class="ruby-comment cmt"># http://en.gentoo-wiki.com/wiki/Safe_Cflags/Intel</span>
+    <span class="ruby-comment cmt"># http://forums.mozillazine.org/viewtopic.php?f=12&amp;t=577299</span>
+    <span class="ruby-comment cmt"># http://gcc.gnu.org/onlinedocs/gcc-4.2.1/gcc/i386-and-x86_002d64-Options.html</span>
+    <span class="ruby-comment cmt"># we don't set, eg. -msse3 because the march flag does that for us</span>
+    <span class="ruby-comment cmt">#   http://gcc.gnu.org/onlinedocs/gcc-4.3.3/gcc/i386-and-x86_002d64-Options.html</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-constant">MACOS_VERSION</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-value">10.6</span>
+      <span class="ruby-keyword kw">case</span> <span class="ruby-constant">Hardware</span>.<span class="ruby-identifier">intel_family</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:nehalem</span>, <span class="ruby-identifier">:penryn</span>, <span class="ruby-identifier">:core2</span>
+        <span class="ruby-comment cmt"># the 64 bit compiler adds -mfpmath=sse for us</span>
+        <span class="ruby-identifier">cflags</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;-march=core2&quot;</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:core</span>
+        <span class="ruby-identifier">cflags</span><span class="ruby-operator">&lt;&lt;</span><span class="ruby-value str">&quot;-march=prescott&quot;</span><span class="ruby-operator">&lt;&lt;</span><span class="ruby-value str">&quot;-mfpmath=sse&quot;</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-comment cmt"># gcc doesn't auto add msse4 or above (based on march flag) yet</span>
+      <span class="ruby-keyword kw">case</span> <span class="ruby-constant">Hardware</span>.<span class="ruby-identifier">intel_family</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:nehalem</span>
+        <span class="ruby-identifier">cflags</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;-msse4&quot;</span> <span class="ruby-comment cmt"># means msse4.2 and msse4.1</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:penryn</span>
+        <span class="ruby-identifier">cflags</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;-msse4.1&quot;</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-comment cmt"># gcc 4.0 didn't support msse4</span>
+      <span class="ruby-keyword kw">case</span> <span class="ruby-constant">Hardware</span>.<span class="ruby-identifier">intel_family</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:nehalem</span>, <span class="ruby-identifier">:penryn</span>, <span class="ruby-identifier">:core2</span>
+        <span class="ruby-identifier">cflags</span><span class="ruby-operator">&lt;&lt;</span><span class="ruby-value str">&quot;-march=nocona&quot;</span>
+      <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:core</span>
+        <span class="ruby-identifier">cflags</span><span class="ruby-operator">&lt;&lt;</span><span class="ruby-value str">&quot;-march=prescott&quot;</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-identifier">cflags</span><span class="ruby-operator">&lt;&lt;</span><span class="ruby-value str">&quot;-mfpmath=sse&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'CFLAGS'</span>] = <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'CXXFLAGS'</span>] = <span class="ruby-node">&quot;#{cflags*' '} #{SAFE_CFLAGS_FLAGS}&quot;</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

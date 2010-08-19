@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>stage (GitDownloadStrategy)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File download_strategy.rb, line 264</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stage</span>
+    <span class="ruby-identifier">dst</span> = <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">getwd</span>
+    <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">chdir</span> <span class="ruby-ivar">@clone</span> <span class="ruby-keyword kw">do</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@spec</span> <span class="ruby-keyword kw">and</span> <span class="ruby-ivar">@ref</span>
+        <span class="ruby-identifier">ohai</span> <span class="ruby-node">&quot;Checking out #{@spec} #{@ref}&quot;</span>
+        <span class="ruby-keyword kw">case</span> <span class="ruby-ivar">@spec</span>
+        <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:branch</span>
+          <span class="ruby-identifier">nostdout</span> { <span class="ruby-identifier">quiet_safe_system</span> <span class="ruby-value str">'git'</span>, <span class="ruby-value str">'checkout'</span>, <span class="ruby-node">&quot;origin/#{@ref}&quot;</span> }
+        <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:tag</span>
+          <span class="ruby-identifier">nostdout</span> { <span class="ruby-identifier">quiet_safe_system</span> <span class="ruby-value str">'git'</span>, <span class="ruby-value str">'checkout'</span>, <span class="ruby-ivar">@ref</span> }
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-comment cmt"># http://stackoverflow.com/questions/160608/how-to-do-a-git-export-like-svn-export</span>
+      <span class="ruby-identifier">safe_system</span> <span class="ruby-value str">'git'</span>, <span class="ruby-value str">'checkout-index'</span>, <span class="ruby-value str">'-a'</span>, <span class="ruby-value str">'-f'</span>, <span class="ruby-node">&quot;--prefix=#{dst}/&quot;</span>
+      <span class="ruby-comment cmt"># check for submodules</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-value str">'.gitmodules'</span>)
+        <span class="ruby-identifier">safe_system</span> <span class="ruby-value str">'git'</span>, <span class="ruby-value str">'submodule'</span>, <span class="ruby-value str">'init'</span>
+        <span class="ruby-identifier">safe_system</span> <span class="ruby-value str">'git'</span>, <span class="ruby-value str">'submodule'</span>, <span class="ruby-value str">'update'</span>
+        <span class="ruby-identifier">sub_cmd</span> = <span class="ruby-node">&quot;git checkout-index -a -f \&quot;--prefix=#{dst}/$path/\&quot;&quot;</span>
+        <span class="ruby-identifier">safe_system</span> <span class="ruby-value str">'git'</span>, <span class="ruby-value str">'submodule'</span>, <span class="ruby-value str">'--quiet'</span>, <span class="ruby-value str">'foreach'</span>, <span class="ruby-value str">'--recursive'</span>, <span class="ruby-identifier">sub_cmd</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>kegs (HomebrewArgvExtension)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File extend/ARGV.rb, line 21</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">kegs</span>
+    <span class="ruby-identifier">require</span> <span class="ruby-value str">'keg'</span>
+    <span class="ruby-ivar">@kegs</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">downcased_unique_named</span>.<span class="ruby-identifier">collect</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">d</span> = <span class="ruby-constant">HOMEBREW_CELLAR</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">resolve_alias</span>(<span class="ruby-identifier">name</span>)
+      <span class="ruby-identifier">dirs</span> = <span class="ruby-identifier">d</span>.<span class="ruby-identifier">children</span>.<span class="ruby-identifier">select</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">pn</span><span class="ruby-operator">|</span> <span class="ruby-identifier">pn</span>.<span class="ruby-identifier">directory?</span> } <span class="ruby-keyword kw">rescue</span> []
+      <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;No such keg: #{HOMEBREW_CELLAR}/#{name}&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">d</span>.<span class="ruby-identifier">directory?</span> <span class="ruby-keyword kw">or</span> <span class="ruby-identifier">dirs</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;#{name} has multiple installed versions&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">dirs</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>
+      <span class="ruby-constant">Keg</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">dirs</span>.<span class="ruby-identifier">first</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">KegUnspecifiedError</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@kegs</span>.<span class="ruby-identifier">empty?</span>
+    <span class="ruby-ivar">@kegs</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

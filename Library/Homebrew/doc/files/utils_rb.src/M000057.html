@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>exec_editor (utils.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File utils.rb, line 142</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">exec_editor</span> <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>
+  <span class="ruby-identifier">editor</span> = <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'HOMEBREW_EDITOR'</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'EDITOR'</span>]
+  <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">editor</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">system</span> <span class="ruby-value str">&quot;/usr/bin/which -s mate&quot;</span>
+      <span class="ruby-comment cmt"># TextMate</span>
+      <span class="ruby-identifier">editor</span>=<span class="ruby-value str">'mate'</span>
+    <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">system</span> <span class="ruby-value str">&quot;/usr/bin/which -s edit&quot;</span>
+      <span class="ruby-comment cmt"># BBEdit / TextWrangler</span>
+      <span class="ruby-identifier">editor</span>=<span class="ruby-value str">'edit'</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-comment cmt"># Default to vim</span>
+      <span class="ruby-identifier">editor</span>=<span class="ruby-value str">'/usr/bin/vim'</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span>
+  <span class="ruby-comment cmt"># we split the editor because especially on mac &quot;mate -w&quot; is common</span>
+  <span class="ruby-comment cmt"># but we still want to use the comma-delimited version of exec because then</span>
+  <span class="ruby-comment cmt"># we don't have to escape args, and escaping 100% is tricky</span>
+  <span class="ruby-identifier">exec</span> <span class="ruby-operator">*</span>(<span class="ruby-identifier">editor</span>.<span class="ruby-identifier">split</span><span class="ruby-operator">+</span><span class="ruby-identifier">args</span>)
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

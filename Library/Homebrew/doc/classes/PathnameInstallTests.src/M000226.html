@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>with_temp_folder (PathnameInstallTests)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File test/test_pathname_install.rb, line 15</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">with_temp_folder</span>
+    <span class="ruby-constant">TEMP_FOLDER</span>.<span class="ruby-identifier">cd</span> <span class="ruby-keyword kw">do</span>
+      <span class="ruby-comment cmt"># Keep these around while building out tests, to make sure</span>
+      <span class="ruby-comment cmt"># that test folders start out clean.</span>
+      <span class="ruby-identifier">assert</span> <span class="ruby-operator">!</span><span class="ruby-constant">TARGET_FOLDER</span>.<span class="ruby-identifier">exist?</span>, <span class="ruby-value str">&quot;setup failed.&quot;</span>
+
+      (<span class="ruby-constant">TEMP_FOLDER</span><span class="ruby-operator">+</span><span class="ruby-value str">'a.txt'</span>).<span class="ruby-identifier">write</span> <span class="ruby-value str">&quot;This is sample file a.&quot;</span>
+      (<span class="ruby-constant">TEMP_FOLDER</span><span class="ruby-operator">+</span><span class="ruby-value str">'b.txt'</span>).<span class="ruby-identifier">write</span> <span class="ruby-value str">&quot;This is sample file b.&quot;</span>
+      <span class="ruby-keyword kw">yield</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

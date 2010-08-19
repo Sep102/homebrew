@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>llvm (HomebrewEnvExtension)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File extend/ENV.rb, line 124</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">llvm</span>
+    <span class="ruby-identifier">xcode_path</span> = <span class="ruby-value">`/usr/bin/xcode-select -print-path`</span>.<span class="ruby-identifier">chomp</span>
+    <span class="ruby-identifier">xcode_path</span> = <span class="ruby-value str">&quot;/Developer&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">xcode_path</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">empty?</span>
+    <span class="ruby-keyword kw">self</span>[<span class="ruby-value str">'CC'</span>] = <span class="ruby-node">&quot;#{xcode_path}/usr/bin/llvm-gcc&quot;</span>
+    <span class="ruby-keyword kw">self</span>[<span class="ruby-value str">'CXX'</span>] = <span class="ruby-node">&quot;#{xcode_path}/usr/bin/llvm-g++&quot;</span>
+    <span class="ruby-keyword kw">self</span>[<span class="ruby-value str">'LD'</span>] = <span class="ruby-keyword kw">self</span>[<span class="ruby-value str">'CC'</span>]
+    <span class="ruby-keyword kw">self</span>.<span class="ruby-constant">O4</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

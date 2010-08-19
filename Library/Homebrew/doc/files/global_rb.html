@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: global.rb</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>global.rb</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>global.rb
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Mon Aug 09 14:18:33 -0700 2010</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+    <div id="requires-list">
+      <h3 class="section-bar">Required files</h3>
+
+      <div class="name-list">
+      <a href="extend/pathname_rb.html">extend/pathname</a>&nbsp;&nbsp;
+      <a href="extend/ARGV_rb.html">extend/ARGV</a>&nbsp;&nbsp;
+      <a href="extend/string_rb.html">extend/string</a>&nbsp;&nbsp;
+      <a href="utils_rb.html">utils</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">HOMEBREW_VERSION</td>
+          <td>=</td>
+          <td class="context-item-value">0.7</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">HOMEBREW_WWW</td>
+          <td>=</td>
+          <td class="context-item-value">'http://mxcl.github.com/homebrew/'</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">HOMEBREW_CACHE</td>
+          <td>=</td>
+          <td class="context-item-value">Pathname.new(&quot;/Library/Caches/Homebrew&quot;)</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+technically this is not the correct place, this cache is for *all users* so
+in that case, maybe we should always use it, root or not?
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">HOMEBREW_CACHE</td>
+          <td>=</td>
+          <td class="context-item-value">Pathname.new(&quot;~/Library/Caches/Homebrew&quot;).expand_path</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">HOMEBREW_BREW_FILE</td>
+          <td>=</td>
+          <td class="context-item-value">ENV['HOMEBREW_BREW_FILE'] || `which brew`.chomp</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">HOMEBREW_PREFIX</td>
+          <td>=</td>
+          <td class="context-item-value">Pathname.new(HOMEBREW_BREW_FILE).dirname.parent # Where we link under</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">HOMEBREW_REPOSITORY</td>
+          <td>=</td>
+          <td class="context-item-value">Pathname.new(HOMEBREW_BREW_FILE).realpath.dirname.parent # Where .git is found</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">HOMEBREW_CELLAR</td>
+          <td>=</td>
+          <td class="context-item-value">HOMEBREW_PREFIX+'Cellar'</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">HOMEBREW_CELLAR</td>
+          <td>=</td>
+          <td class="context-item-value">HOMEBREW_REPOSITORY+'Cellar'</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">MACOS_FULL_VERSION</td>
+          <td>=</td>
+          <td class="context-item-value">`/usr/bin/sw_vers -productVersion`.chomp</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">MACOS_VERSION</td>
+          <td>=</td>
+          <td class="context-item-value">/(10\.\d+)(\.\d+)?/.match(MACOS_FULL_VERSION).captures.first.to_f</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">HOMEBREW_USER_AGENT</td>
+          <td>=</td>
+          <td class="context-item-value">&quot;Homebrew #{HOMEBREW_VERSION} (Ruby #{RUBY_VERSION}-#{RUBY_PATCHLEVEL}; Mac OS X #{MACOS_FULL_VERSION})&quot;</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">RECOMMENDED_LLVM</td>
+          <td>=</td>
+          <td class="context-item-value">2207</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">RECOMMENDED_GCC_40</td>
+          <td>=</td>
+          <td class="context-item-value">5493</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">RECOMMENDED_GCC_42</td>
+          <td>=</td>
+          <td class="context-item-value">(MACOS_VERSION &gt;= 10.6) ? 5659 : 5577</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

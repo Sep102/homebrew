@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>dump_build_env (utils.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File utils.rb, line 259</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">dump_build_env</span> <span class="ruby-identifier">env</span>
+  <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;\&quot;--use-llvm\&quot; was specified&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-constant">ARGV</span>.<span class="ruby-identifier">include?</span> <span class="ruby-value str">'--use-llvm'</span>
+
+  <span class="ruby-node">%w[ CC CXX LD ]</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">value</span> = <span class="ruby-identifier">env</span>[<span class="ruby-identifier">k</span>]
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">value</span>
+      <span class="ruby-identifier">results</span> = <span class="ruby-identifier">value</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-identifier">value</span> <span class="ruby-keyword kw">and</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">symlink?</span> <span class="ruby-identifier">value</span>
+        <span class="ruby-identifier">target</span> = <span class="ruby-constant">Pathname</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">value</span>)
+        <span class="ruby-identifier">results</span> <span class="ruby-operator">+=</span> <span class="ruby-node">&quot; =&gt; #{target.dirname+target.readlink}&quot;</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;#{k}: #{results}&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-node">%w[ CFLAGS CXXFLAGS CPPFLAGS LDFLAGS MACOSX_DEPLOYMENT_TARGET MAKEFLAGS PKG_CONFIG_PATH
+      HOMEBREW_DEBUG HOMEBREW_VERBOSE HOMEBREW_USE_LLVM HOMEBREW_SVN ]</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">k</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">value</span> = <span class="ruby-identifier">env</span>[<span class="ruby-identifier">k</span>]
+    <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;#{k}: #{value}&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">value</span>
+  <span class="ruby-keyword kw">end</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

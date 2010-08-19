@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>clean (brew.h.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File brew.h.rb, line 262</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">clean</span> <span class="ruby-identifier">f</span>
+  <span class="ruby-constant">Cleaner</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">f</span>
+ 
+  <span class="ruby-comment cmt"># Hunt for empty folders and nuke them unless they are</span>
+  <span class="ruby-comment cmt"># protected by f.skip_clean?</span>
+  <span class="ruby-comment cmt"># We want post-order traversal, so put the dirs in a stack</span>
+  <span class="ruby-comment cmt"># and then pop them off later.</span>
+  <span class="ruby-identifier">paths</span> = []
+  <span class="ruby-identifier">f</span>.<span class="ruby-identifier">prefix</span>.<span class="ruby-identifier">find</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">path</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">paths</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">path</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">directory?</span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-keyword kw">until</span> <span class="ruby-identifier">paths</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-keyword kw">do</span>
+    <span class="ruby-identifier">d</span> = <span class="ruby-identifier">paths</span>.<span class="ruby-identifier">pop</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">d</span>.<span class="ruby-identifier">children</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-keyword kw">and</span> <span class="ruby-keyword kw">not</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">skip_clean?</span> <span class="ruby-identifier">d</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;rmdir: #{d} (empty)&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-constant">ARGV</span>.<span class="ruby-identifier">verbose?</span>
+      <span class="ruby-identifier">d</span>.<span class="ruby-identifier">rmdir</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

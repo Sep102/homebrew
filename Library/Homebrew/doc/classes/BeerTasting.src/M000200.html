@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>test_brew_cleanup (BeerTasting)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File test/test_bucket.rb, line 94</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_brew_cleanup</span>
+    <span class="ruby-identifier">f1</span>=<span class="ruby-constant">TestBall</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-identifier">f1</span>.<span class="ruby-identifier">instance_eval</span> { <span class="ruby-ivar">@version</span> = <span class="ruby-value str">&quot;0.1&quot;</span> }
+    <span class="ruby-identifier">f2</span>=<span class="ruby-constant">TestBall</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-identifier">f2</span>.<span class="ruby-identifier">instance_eval</span> { <span class="ruby-ivar">@version</span> = <span class="ruby-value str">&quot;0.2&quot;</span> }
+    <span class="ruby-identifier">f3</span>=<span class="ruby-constant">TestBall</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-identifier">f3</span>.<span class="ruby-identifier">instance_eval</span> { <span class="ruby-ivar">@version</span> = <span class="ruby-value str">&quot;0.3&quot;</span> }
+
+    <span class="ruby-identifier">nostdout</span> <span class="ruby-keyword kw">do</span>
+      <span class="ruby-identifier">f1</span>.<span class="ruby-identifier">brew</span> { <span class="ruby-identifier">f1</span>.<span class="ruby-identifier">install</span> }
+      <span class="ruby-identifier">f2</span>.<span class="ruby-identifier">brew</span> { <span class="ruby-identifier">f2</span>.<span class="ruby-identifier">install</span> }
+      <span class="ruby-identifier">f3</span>.<span class="ruby-identifier">brew</span> { <span class="ruby-identifier">f3</span>.<span class="ruby-identifier">install</span> }
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-identifier">assert</span> <span class="ruby-identifier">f1</span>.<span class="ruby-identifier">installed?</span>
+    <span class="ruby-identifier">assert</span> <span class="ruby-identifier">f2</span>.<span class="ruby-identifier">installed?</span>
+    <span class="ruby-identifier">assert</span> <span class="ruby-identifier">f3</span>.<span class="ruby-identifier">installed?</span>
+
+    <span class="ruby-identifier">nostdout</span> <span class="ruby-keyword kw">do</span>
+      <span class="ruby-identifier">cleanup</span> <span class="ruby-identifier">f3</span>
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-identifier">assert</span> <span class="ruby-operator">!</span><span class="ruby-identifier">f1</span>.<span class="ruby-identifier">installed?</span>
+    <span class="ruby-identifier">assert</span> <span class="ruby-operator">!</span><span class="ruby-identifier">f2</span>.<span class="ruby-identifier">installed?</span>
+    <span class="ruby-identifier">assert</span> <span class="ruby-identifier">f3</span>.<span class="ruby-identifier">installed?</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

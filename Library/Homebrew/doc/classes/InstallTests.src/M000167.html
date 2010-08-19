@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>test_a_basic_install (InstallTests)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File test/test_formula_install.rb, line 56</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_a_basic_install</span>
+    <span class="ruby-identifier">f</span>=<span class="ruby-constant">TestBall</span>.<span class="ruby-identifier">new</span>
+    
+    <span class="ruby-identifier">assert_equal</span> <span class="ruby-constant">Formula</span>.<span class="ruby-identifier">path</span>(<span class="ruby-identifier">f</span>.<span class="ruby-identifier">name</span>), <span class="ruby-identifier">f</span>.<span class="ruby-identifier">path</span>
+    <span class="ruby-identifier">assert</span> <span class="ruby-operator">!</span><span class="ruby-identifier">f</span>.<span class="ruby-identifier">installed?</span>
+    
+    <span class="ruby-identifier">temporary_install</span> <span class="ruby-identifier">f</span> <span class="ruby-keyword kw">do</span>
+      <span class="ruby-identifier">assert_match</span> <span class="ruby-constant">Regexp</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;^#{HOMEBREW_CELLAR}/&quot;</span>), <span class="ruby-identifier">f</span>.<span class="ruby-identifier">prefix</span>.<span class="ruby-identifier">to_s</span>
+    
+      <span class="ruby-comment cmt"># Test that things made it into the Keg</span>
+      <span class="ruby-identifier">assert</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">bin</span>.<span class="ruby-identifier">directory?</span>
+      <span class="ruby-identifier">assert_equal</span> <span class="ruby-value">3</span>, <span class="ruby-identifier">f</span>.<span class="ruby-identifier">bin</span>.<span class="ruby-identifier">children</span>.<span class="ruby-identifier">length</span>
+      <span class="ruby-identifier">libexec</span>=<span class="ruby-identifier">f</span>.<span class="ruby-identifier">prefix</span><span class="ruby-operator">+</span><span class="ruby-value str">'libexec'</span>
+      <span class="ruby-identifier">assert</span> <span class="ruby-identifier">libexec</span>.<span class="ruby-identifier">directory?</span>
+      <span class="ruby-identifier">assert_equal</span> <span class="ruby-value">1</span>, <span class="ruby-identifier">libexec</span>.<span class="ruby-identifier">children</span>.<span class="ruby-identifier">length</span>
+      <span class="ruby-identifier">assert</span> <span class="ruby-operator">!</span>(<span class="ruby-identifier">f</span>.<span class="ruby-identifier">prefix</span><span class="ruby-operator">+</span><span class="ruby-value str">'main.c'</span>).<span class="ruby-identifier">exist?</span>
+      <span class="ruby-identifier">assert</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">installed?</span>
+    
+      <span class="ruby-comment cmt"># Test that things make it into the Cellar</span>
+      <span class="ruby-identifier">keg</span>=<span class="ruby-constant">Keg</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">f</span>.<span class="ruby-identifier">prefix</span>
+      <span class="ruby-identifier">keg</span>.<span class="ruby-identifier">link</span>
+      <span class="ruby-identifier">assert_equal</span> <span class="ruby-value">2</span>, <span class="ruby-constant">HOMEBREW_PREFIX</span>.<span class="ruby-identifier">children</span>.<span class="ruby-identifier">length</span>
+      <span class="ruby-identifier">assert</span> (<span class="ruby-constant">HOMEBREW_PREFIX</span><span class="ruby-operator">+</span><span class="ruby-value str">'bin'</span>).<span class="ruby-identifier">directory?</span>
+      <span class="ruby-identifier">assert_equal</span> <span class="ruby-value">3</span>, (<span class="ruby-constant">HOMEBREW_PREFIX</span><span class="ruby-operator">+</span><span class="ruby-value str">'bin'</span>).<span class="ruby-identifier">children</span>.<span class="ruby-identifier">length</span>
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

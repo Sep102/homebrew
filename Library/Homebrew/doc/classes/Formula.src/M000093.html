@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>new (Formula)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File formula.rb, line 65</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span> <span class="ruby-identifier">name</span>=<span class="ruby-value str">'__UNKNOWN__'</span>
+    <span class="ruby-identifier">set_instance_variable</span> <span class="ruby-value str">'homepage'</span>
+    <span class="ruby-identifier">set_instance_variable</span> <span class="ruby-value str">'url'</span>
+    <span class="ruby-identifier">set_instance_variable</span> <span class="ruby-value str">'head'</span>
+    <span class="ruby-identifier">set_instance_variable</span> <span class="ruby-value str">'specs'</span>
+
+    <span class="ruby-identifier">set_instance_variable</span> <span class="ruby-value str">'stable'</span>
+    <span class="ruby-identifier">set_instance_variable</span> <span class="ruby-value str">'unstable'</span>
+
+    <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@head</span> <span class="ruby-keyword kw">and</span> (<span class="ruby-keyword kw">not</span> <span class="ruby-ivar">@url</span> <span class="ruby-keyword kw">or</span> <span class="ruby-constant">ARGV</span>.<span class="ruby-identifier">build_head?</span>)
+      <span class="ruby-ivar">@url</span> = <span class="ruby-ivar">@head</span>
+      <span class="ruby-ivar">@version</span> = <span class="ruby-value str">'HEAD'</span>
+      <span class="ruby-ivar">@spec_to_use</span> = <span class="ruby-ivar">@unstable</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@stable</span>.<span class="ruby-identifier">nil?</span>
+        <span class="ruby-ivar">@spec_to_use</span> = <span class="ruby-constant">SoftwareSpecification</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@url</span>, <span class="ruby-ivar">@specs</span>)
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-ivar">@spec_to_use</span> = <span class="ruby-ivar">@stable</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;No url provided for formula #{name}&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@url</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-ivar">@name</span>=<span class="ruby-identifier">name</span>
+    <span class="ruby-identifier">validate_variable</span> <span class="ruby-identifier">:name</span>
+
+    <span class="ruby-identifier">set_instance_variable</span> <span class="ruby-value str">'version'</span>
+    <span class="ruby-ivar">@version</span> <span class="ruby-operator">||=</span> <span class="ruby-ivar">@spec_to_use</span>.<span class="ruby-identifier">detect_version</span>
+    <span class="ruby-identifier">validate_variable</span> <span class="ruby-identifier">:version</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@version</span>
+
+    <span class="ruby-constant">CHECKSUM_TYPES</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">type</span><span class="ruby-operator">|</span> <span class="ruby-identifier">set_instance_variable</span> <span class="ruby-identifier">type</span> }
+
+    <span class="ruby-ivar">@downloader</span>=<span class="ruby-identifier">download_strategy</span>.<span class="ruby-identifier">new</span> <span class="ruby-ivar">@spec_to_use</span>.<span class="ruby-identifier">url</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">version</span>, <span class="ruby-ivar">@spec_to_use</span>.<span class="ruby-identifier">specs</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

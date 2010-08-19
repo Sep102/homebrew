@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>check_gcc_versions (brew_doctor.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File brew_doctor.rb, line 98</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">check_gcc_versions</span>
+  <span class="ruby-identifier">gcc_42</span> = <span class="ruby-identifier">gcc_42_build</span>
+  <span class="ruby-identifier">gcc_40</span> = <span class="ruby-identifier">gcc_40_build</span>
+
+  <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">gcc_42</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;We couldn't detect gcc 4.2.x. Some formulas require this compiler.\n\n&quot;</span>.<span class="ruby-identifier">undent</span>
+  <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">gcc_42</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">RECOMMENDED_GCC_42</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Your gcc 4.2.x version is older than the recommended version. It may be advisable\nto upgrade to the latest release of Xcode.\n\n&quot;</span>.<span class="ruby-identifier">undent</span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">gcc_40</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">nil</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;We couldn't detect gcc 4.0.x. Some formulas require this compiler.\n\n&quot;</span>.<span class="ruby-identifier">undent</span>
+  <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">gcc_40</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">RECOMMENDED_GCC_40</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Your gcc 4.0.x version is older than the recommended version. It may be advisable\nto upgrade to the latest release of Xcode.\n\n&quot;</span>.<span class="ruby-identifier">undent</span>
+  <span class="ruby-keyword kw">end</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

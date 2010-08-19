@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>stage (CurlDownloadStrategy)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File download_strategy.rb, line 68</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stage</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@tarball_path</span>.<span class="ruby-identifier">extname</span> <span class="ruby-operator">==</span> <span class="ruby-value str">'.jar'</span>
+      <span class="ruby-identifier">magic_bytes</span> = <span class="ruby-keyword kw">nil</span>
+    <span class="ruby-keyword kw">elsif</span> <span class="ruby-ivar">@tarball_path</span>.<span class="ruby-identifier">extname</span> <span class="ruby-operator">==</span> <span class="ruby-value str">'.pkg'</span>
+      <span class="ruby-comment cmt"># Use more than 4 characters to not clash with magicbytes</span>
+      <span class="ruby-identifier">magic_bytes</span> = <span class="ruby-value str">&quot;____pkg&quot;</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-comment cmt"># get the first four bytes</span>
+      <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-ivar">@tarball_path</span>) { <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span> <span class="ruby-identifier">magic_bytes</span> = <span class="ruby-identifier">f</span>.<span class="ruby-identifier">read</span>(<span class="ruby-value">4</span>) }
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-comment cmt"># magic numbers stolen from /usr/share/file/magic/</span>
+    <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">magic_bytes</span>
+    <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/^PK\003\004/</span> <span class="ruby-comment cmt"># .zip archive</span>
+      <span class="ruby-identifier">quiet_safe_system</span> <span class="ruby-value str">'/usr/bin/unzip'</span>, {<span class="ruby-identifier">:quiet_flag</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'-qq'</span>}, <span class="ruby-ivar">@tarball_path</span>
+      <span class="ruby-identifier">chdir</span>
+    <span class="ruby-keyword kw">when</span> <span class="ruby-regexp re">/^\037\213/</span>, <span class="ruby-regexp re">/^BZh/</span>, <span class="ruby-regexp re">/^\037\235/</span>  <span class="ruby-comment cmt"># gzip/bz2/compress compressed</span>
+      <span class="ruby-comment cmt"># TODO check if it's really a tar archive</span>
+      <span class="ruby-identifier">safe_system</span> <span class="ruby-value str">'/usr/bin/tar'</span>, <span class="ruby-value str">'xf'</span>, <span class="ruby-ivar">@tarball_path</span>
+      <span class="ruby-identifier">chdir</span>
+    <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'____pkg'</span>
+      <span class="ruby-identifier">safe_system</span> <span class="ruby-value str">'/usr/sbin/pkgutil'</span>, <span class="ruby-value str">'--expand'</span>, <span class="ruby-ivar">@tarball_path</span>, <span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-ivar">@url</span>)
+      <span class="ruby-identifier">chdir</span>
+    <span class="ruby-keyword kw">when</span> <span class="ruby-value str">'Rar!'</span>
+      <span class="ruby-identifier">quiet_safe_system</span> <span class="ruby-value str">'unrar'</span>, <span class="ruby-value str">'x'</span>, {<span class="ruby-identifier">:quiet_flag</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'-inul'</span>}, <span class="ruby-ivar">@tarball_path</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-comment cmt"># we are assuming it is not an archive, use original filename</span>
+      <span class="ruby-comment cmt"># this behaviour is due to ScriptFileFormula expectations</span>
+      <span class="ruby-comment cmt"># So I guess we should cp, but we mv, for this historic reason</span>
+      <span class="ruby-comment cmt"># HOWEVER if this breaks some expectation you had we *will* change the</span>
+      <span class="ruby-comment cmt"># behaviour, just open an issue at github</span>
+      <span class="ruby-comment cmt"># We also do this for jar files, as they are in fact zip files, but</span>
+      <span class="ruby-comment cmt"># we don't want to unzip them</span>
+      <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">mv</span> <span class="ruby-ivar">@tarball_path</span>, <span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-ivar">@url</span>)
+    <span class="ruby-keyword kw">end</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

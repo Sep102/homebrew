@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>version (Pathname)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File extend/pathname.rb, line 103</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">version</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">directory?</span>
+      <span class="ruby-comment cmt"># directories don't have extnames</span>
+      <span class="ruby-identifier">stem</span>=<span class="ruby-identifier">basename</span>.<span class="ruby-identifier">to_s</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">stem</span>=<span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">stem</span>
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-comment cmt"># github tarballs are special</span>
+    <span class="ruby-comment cmt"># we only support numbered tagged downloads</span>
+    <span class="ruby-regexp re">%r[github.com/.*/tarball/v?((\d\.)+\d+)$]</span>.<span class="ruby-identifier">match</span> <span class="ruby-identifier">to_s</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">$1</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">$1</span>
+
+    <span class="ruby-comment cmt"># eg. boost_1_39_0</span>
+    <span class="ruby-regexp re">/((\d+_)+\d+)$/</span>.<span class="ruby-identifier">match</span> <span class="ruby-identifier">stem</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">$1</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-value str">'_'</span>, <span class="ruby-value str">'.'</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">$1</span>
+
+    <span class="ruby-comment cmt"># eg. foobar-4.5.1-1</span>
+    <span class="ruby-comment cmt"># eg. ruby-1.9.1-p243</span>
+    <span class="ruby-regexp re">/-((\d+\.)*\d\.\d+-(p|rc|RC)?\d+)$/</span>.<span class="ruby-identifier">match</span> <span class="ruby-identifier">stem</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">$1</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">$1</span>
+    
+    <span class="ruby-comment cmt"># eg. lame-398-1</span>
+    <span class="ruby-regexp re">/-((\d)+-\d)/</span>.<span class="ruby-identifier">match</span> <span class="ruby-identifier">stem</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">$1</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">$1</span>
+
+    <span class="ruby-comment cmt"># eg. foobar-4.5.1</span>
+    <span class="ruby-regexp re">/-((\d+\.)*\d+)$/</span>.<span class="ruby-identifier">match</span> <span class="ruby-identifier">stem</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">$1</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">$1</span>
+
+    <span class="ruby-comment cmt"># eg. foobar-4.5.1b</span>
+    <span class="ruby-regexp re">/-((\d+\.)*\d+([abc]|rc|RC)\d*)$/</span>.<span class="ruby-identifier">match</span> <span class="ruby-identifier">stem</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">$1</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">$1</span>
+
+    <span class="ruby-comment cmt"># eg foobar-4.5.0-beta1</span>
+    <span class="ruby-regexp re">/-((\d+\.)*\d+-beta\d+)$/</span>.<span class="ruby-identifier">match</span> <span class="ruby-identifier">stem</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">$1</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">$1</span>
+
+    <span class="ruby-comment cmt"># eg. foobar4.5.1</span>
+    <span class="ruby-regexp re">/((\d+\.)*\d+)$/</span>.<span class="ruby-identifier">match</span> <span class="ruby-identifier">stem</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">$1</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">$1</span>
+
+    <span class="ruby-comment cmt"># eg foobar-4.5.0-bin</span>
+    <span class="ruby-regexp re">/-((\d+\.)+\d+[abc]?)[-.](bin|stable|src|sources?)$/</span>.<span class="ruby-identifier">match</span> <span class="ruby-identifier">stem</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">$1</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">$1</span>
+
+    <span class="ruby-comment cmt"># Debian style eg dash_0.5.5.1.orig.tar.gz</span>
+    <span class="ruby-regexp re">/_((\d+\.)+\d+[abc]?)[.]orig$/</span>.<span class="ruby-identifier">match</span> <span class="ruby-identifier">stem</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">$1</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">$1</span>
+
+    <span class="ruby-comment cmt"># eg. otp_src_R13B (this is erlang's style)</span>
+    <span class="ruby-comment cmt"># eg. astyle_1.23_macosx.tar.gz</span>
+    <span class="ruby-identifier">stem</span>.<span class="ruby-identifier">scan</span> <span class="ruby-regexp re">/_([^_]+)/</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">match</span><span class="ruby-operator">|</span>
+      <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">match</span>.<span class="ruby-identifier">first</span> <span class="ruby-keyword kw">if</span> <span class="ruby-regexp re">/\d/</span>.<span class="ruby-identifier">match</span> <span class="ruby-identifier">$1</span>
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-keyword kw">nil</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

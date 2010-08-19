@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>gcc_4_2 (HomebrewEnvExtension)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File extend/ENV.rb, line 116</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">gcc_4_2</span>
+    <span class="ruby-comment cmt"># Sometimes you want to downgrade from LLVM to GCC 4.2</span>
+    <span class="ruby-keyword kw">self</span>[<span class="ruby-value str">'CC'</span>]=<span class="ruby-value str">&quot;/usr/bin/gcc-4.2&quot;</span>
+    <span class="ruby-keyword kw">self</span>[<span class="ruby-value str">'CXX'</span>]=<span class="ruby-value str">&quot;/usr/bin/g++-4.2&quot;</span>
+    <span class="ruby-keyword kw">self</span>[<span class="ruby-value str">'LD'</span>]=<span class="ruby-keyword kw">self</span>[<span class="ruby-value str">'CC'</span>]
+    <span class="ruby-keyword kw">self</span>.<span class="ruby-constant">O3</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,0 +1,616 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Module: HomebrewEnvExtension</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Module</strong></td>
+          <td class="class-name-in-header">HomebrewEnvExtension</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../files/extend/ENV_rb.html">
+                extend/ENV.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000370">O2</a>&nbsp;&nbsp;
+      <a href="#M000369">O3</a>&nbsp;&nbsp;
+      <a href="#M000368">O4</a>&nbsp;&nbsp;
+      <a href="#M000371">Os</a>&nbsp;&nbsp;
+      <a href="#M000391">append</a>&nbsp;&nbsp;
+      <a href="#M000392">append_to_cflags</a>&nbsp;&nbsp;
+      <a href="#M000385">cc</a>&nbsp;&nbsp;
+      <a href="#M000386">cxx</a>&nbsp;&nbsp;
+      <a href="#M000365">deparallelize</a>&nbsp;&nbsp;
+      <a href="#M000383">enable_warnings</a>&nbsp;&nbsp;
+      <a href="#M000367">fast</a>&nbsp;&nbsp;
+      <a href="#M000373">gcc_4_0</a>&nbsp;&nbsp;
+      <a href="#M000372">gcc_4_0_1</a>&nbsp;&nbsp;
+      <a href="#M000374">gcc_4_2</a>&nbsp;&nbsp;
+      <a href="#M000366">j1</a>&nbsp;&nbsp;
+      <a href="#M000382">libpng</a>&nbsp;&nbsp;
+      <a href="#M000380">libxml2</a>&nbsp;&nbsp;
+      <a href="#M000375">llvm</a>&nbsp;&nbsp;
+      <a href="#M000388">m32</a>&nbsp;&nbsp;
+      <a href="#M000387">m64</a>&nbsp;&nbsp;
+      <a href="#M000378">minimal_optimization</a>&nbsp;&nbsp;
+      <a href="#M000384">ncurses_define</a>&nbsp;&nbsp;
+      <a href="#M000379">no_optimization</a>&nbsp;&nbsp;
+      <a href="#M000376">osx_10_4</a>&nbsp;&nbsp;
+      <a href="#M000377">osx_10_5</a>&nbsp;&nbsp;
+      <a href="#M000390">prepend</a>&nbsp;&nbsp;
+      <a href="#M000393">remove</a>&nbsp;&nbsp;
+      <a href="#M000394">remove_from_cflags</a>&nbsp;&nbsp;
+      <a href="#M000364">setup_build_environment</a>&nbsp;&nbsp;
+      <a href="#M000389">universal_binary</a>&nbsp;&nbsp;
+      <a href="#M000381">x11</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">SAFE_CFLAGS_FLAGS</td>
+          <td>=</td>
+          <td class="context-item-value">&quot;-w -pipe&quot;</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+-w: keep signal to noise high
+
+</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+
+
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000370" class="method-detail">
+        <a name="M000370"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000370.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000370.html');return false;">
+          <span class="method-name">O2</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000369" class="method-detail">
+        <a name="M000369"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000369.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000369.html');return false;">
+          <span class="method-name">O3</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000368" class="method-detail">
+        <a name="M000368"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000368.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000368.html');return false;">
+          <span class="method-name">O4</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000371" class="method-detail">
+        <a name="M000371"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000371.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000371.html');return false;">
+          <span class="method-name">Os</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000391" class="method-detail">
+        <a name="M000391"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000391.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000391.html');return false;">
+          <span class="method-name">append</span><span class="method-args">(key, value, separator = ' ')</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000392" class="method-detail">
+        <a name="M000392"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000392.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000392.html');return false;">
+          <span class="method-name">append_to_cflags</span><span class="method-args">(f)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000385" class="method-detail">
+        <a name="M000385"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000385.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000385.html');return false;">
+          <span class="method-name">cc</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+returns the compiler we&#8216;re using
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000386" class="method-detail">
+        <a name="M000386"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000386.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000386.html');return false;">
+          <span class="method-name">cxx</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000365" class="method-detail">
+        <a name="M000365"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000365.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000365.html');return false;">
+          <span class="method-name">deparallelize</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000383" class="method-detail">
+        <a name="M000383"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000383.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000383.html');return false;">
+          <span class="method-name">enable_warnings</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+we&#8216;ve seen some packages fail to build when warnings are disabled!
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000367" class="method-detail">
+        <a name="M000367"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000367.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000367.html');return false;">
+          <span class="method-name">fast</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+recommended by Apple, but, eg. wget won&#8216;t compile with this flag,
+so…
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000373" class="method-detail">
+        <a name="M000373"></a>
+
+        <div class="method-heading">
+          <span class="method-name">gcc_4_0</span><span class="method-args">()</span>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Alias for <a href="HomebrewEnvExtension.html#M000372">gcc_4_0_1</a>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000372" class="method-detail">
+        <a name="M000372"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000372.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000372.html');return false;">
+          <span class="method-name">gcc_4_0_1</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000374" class="method-detail">
+        <a name="M000374"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000374.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000374.html');return false;">
+          <span class="method-name">gcc_4_2</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000366" class="method-detail">
+        <a name="M000366"></a>
+
+        <div class="method-heading">
+          <span class="method-name">j1</span><span class="method-args">()</span>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Alias for <a href="HomebrewEnvExtension.html#M000365">deparallelize</a>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000382" class="method-detail">
+        <a name="M000382"></a>
+
+        <div class="method-heading">
+          <span class="method-name">libpng</span><span class="method-args">()</span>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Alias for <a href="HomebrewEnvExtension.html#M000381">x11</a>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000380" class="method-detail">
+        <a name="M000380"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000380.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000380.html');return false;">
+          <span class="method-name">libxml2</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000375" class="method-detail">
+        <a name="M000375"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000375.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000375.html');return false;">
+          <span class="method-name">llvm</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000388" class="method-detail">
+        <a name="M000388"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000388.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000388.html');return false;">
+          <span class="method-name">m32</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000387" class="method-detail">
+        <a name="M000387"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000387.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000387.html');return false;">
+          <span class="method-name">m64</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000378" class="method-detail">
+        <a name="M000378"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000378.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000378.html');return false;">
+          <span class="method-name">minimal_optimization</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000384" class="method-detail">
+        <a name="M000384"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000384.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000384.html');return false;">
+          <span class="method-name">ncurses_define</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Snow Leopard defines an NCURSES value the opposite of most distros See: <a
+href="http://bugs.python.org/issue6848">bugs.python.org/issue6848</a>
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000379" class="method-detail">
+        <a name="M000379"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000379.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000379.html');return false;">
+          <span class="method-name">no_optimization</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000376" class="method-detail">
+        <a name="M000376"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000376.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000376.html');return false;">
+          <span class="method-name">osx_10_4</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000377" class="method-detail">
+        <a name="M000377"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000377.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000377.html');return false;">
+          <span class="method-name">osx_10_5</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000390" class="method-detail">
+        <a name="M000390"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000390.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000390.html');return false;">
+          <span class="method-name">prepend</span><span class="method-args">(key, value, separator = ' ')</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000393" class="method-detail">
+        <a name="M000393"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000393.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000393.html');return false;">
+          <span class="method-name">remove</span><span class="method-args">(key, value)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000394" class="method-detail">
+        <a name="M000394"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000394.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000394.html');return false;">
+          <span class="method-name">remove_from_cflags</span><span class="method-args">(f)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000364" class="method-detail">
+        <a name="M000364"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000364.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000364.html');return false;">
+          <span class="method-name">setup_build_environment</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000389" class="method-detail">
+        <a name="M000389"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000389.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000389.html');return false;">
+          <span class="method-name">universal_binary</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+i386 and x86_64 only, no PPC
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000381" class="method-detail">
+        <a name="M000381"></a>
+
+        <div class="method-heading">
+          <a href="HomebrewEnvExtension.src/M000381.html" target="Code" class="method-signature"
+            onclick="popupCode('HomebrewEnvExtension.src/M000381.html');return false;">
+          <span class="method-name">x11</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

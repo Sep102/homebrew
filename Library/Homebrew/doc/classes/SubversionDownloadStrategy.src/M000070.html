@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>fetch_repo (SubversionDownloadStrategy)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File download_strategy.rb, line 201</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">fetch_repo</span> <span class="ruby-identifier">target</span>, <span class="ruby-identifier">url</span>, <span class="ruby-identifier">revision</span>=<span class="ruby-keyword kw">nil</span>, <span class="ruby-identifier">ignore_externals</span>=<span class="ruby-keyword kw">false</span>
+    <span class="ruby-comment cmt"># Use &quot;svn up&quot; when the repository already exists locally.</span>
+    <span class="ruby-comment cmt"># This saves on bandwidth and will have a similar effect to verifying the</span>
+    <span class="ruby-comment cmt"># cache as it will make any changes to get the right revision.</span>
+    <span class="ruby-identifier">svncommand</span> = <span class="ruby-identifier">target</span>.<span class="ruby-identifier">exist?</span> <span class="ruby-value">? </span><span class="ruby-value str">'up'</span> <span class="ruby-operator">:</span> <span class="ruby-value str">'checkout'</span>
+    <span class="ruby-identifier">args</span> = [<span class="ruby-identifier">svn</span>, <span class="ruby-identifier">svncommand</span>, <span class="ruby-value str">'--force'</span>, <span class="ruby-identifier">url</span>, <span class="ruby-identifier">target</span>]
+    <span class="ruby-identifier">args</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">'-r'</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">revision</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">revision</span>
+    <span class="ruby-identifier">args</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">'--ignore-externals'</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">ignore_externals</span>
+    <span class="ruby-identifier">quiet_safe_system</span> <span class="ruby-operator">*</span><span class="ruby-identifier">args</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>check_user_path (brew_doctor.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File brew_doctor.rb, line 211</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">check_user_path</span>
+  <span class="ruby-identifier">seen_prefix_bin</span> = <span class="ruby-keyword kw">false</span>
+  <span class="ruby-identifier">seen_prefix_sbin</span> = <span class="ruby-keyword kw">false</span>
+  <span class="ruby-identifier">seen_usr_bin</span> = <span class="ruby-keyword kw">false</span>
+
+  <span class="ruby-identifier">paths</span> = <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'PATH'</span>].<span class="ruby-identifier">split</span>(<span class="ruby-value str">':'</span>).<span class="ruby-identifier">collect</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span> <span class="ruby-identifier">p</span>}
+
+  <span class="ruby-identifier">paths</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">p</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">p</span> <span class="ruby-operator">==</span> <span class="ruby-value str">'/usr/bin'</span>
+      <span class="ruby-identifier">seen_usr_bin</span> = <span class="ruby-keyword kw">true</span>
+      <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">seen_prefix_bin</span>
+        <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;/usr/bin is in your PATH before Homebrew's bin. This means that system-\nprovided programs will be used before Homebrew-provided ones. This is an\nissue if you install, for instance, Python.\n\nConsider editing your .bashrc to put:\n\#{HOMEBREW_PREFIX}/bin\nahead of /usr/bin in your $PATH.\n\n&quot;</span>.<span class="ruby-identifier">undent</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-identifier">seen_prefix_bin</span>  = <span class="ruby-keyword kw">true</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">p</span> <span class="ruby-operator">==</span> <span class="ruby-node">&quot;#{HOMEBREW_PREFIX}/bin&quot;</span>
+    <span class="ruby-identifier">seen_prefix_sbin</span> = <span class="ruby-keyword kw">true</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">p</span> <span class="ruby-operator">==</span> <span class="ruby-node">&quot;#{HOMEBREW_PREFIX}/sbin&quot;</span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">seen_prefix_bin</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Homebrew's bin was not found in your path. Some brews depend\non other brews that install tools to bin.\n\nYou should edit your .bashrc to add:\n\#{HOMEBREW_PREFIX}/bin\nto $PATH.\n\n&quot;</span>.<span class="ruby-identifier">undent</span>
+  <span class="ruby-keyword kw">end</span>
+
+  <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">seen_prefix_sbin</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Some brews install binaries to sbin instead of bin, but Homebrew's\nsbin was not found in your path.\n\nConsider editing your .bashrc to add:\n\#{HOMEBREW_PREFIX}/sbin\nto $PATH.\n\n&quot;</span>.<span class="ruby-identifier">undent</span>
+  <span class="ruby-keyword kw">end</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

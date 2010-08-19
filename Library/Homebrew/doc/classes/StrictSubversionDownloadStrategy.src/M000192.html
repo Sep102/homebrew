@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>svn (StrictSubversionDownloadStrategy)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File download_strategy.rb, line 223</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">svn</span>
+    <span class="ruby-identifier">exe</span> = <span class="ruby-keyword kw">super</span>
+    <span class="ruby-node">`#{exe} --version`</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/version (\d+\.\d+(\.\d+)*)/</span>
+    <span class="ruby-identifier">svn_version</span> = <span class="ruby-identifier">$1</span>
+    <span class="ruby-identifier">version_tuple</span>=<span class="ruby-identifier">svn_version</span>.<span class="ruby-identifier">split</span>(<span class="ruby-value str">&quot;.&quot;</span>).<span class="ruby-identifier">collect</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">v</span><span class="ruby-operator">|</span><span class="ruby-constant">Integer</span>(<span class="ruby-identifier">v</span>)}
+
+    <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">version_tuple</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">==</span> <span class="ruby-value">1</span> <span class="ruby-keyword kw">and</span> <span class="ruby-identifier">version_tuple</span>[<span class="ruby-value">1</span>] <span class="ruby-operator">&lt;=</span> <span class="ruby-value">4</span>
+      <span class="ruby-identifier">onoe</span> <span class="ruby-node">&quot;Detected Subversion (#{exe}, version #{svn_version}) is too old.&quot;</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Subversion 1.4.x will not export externals correctly for this formula.&quot;</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;You must either `brew install subversion` or set HOMEBREW_SVN to the path&quot;</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;of a newer svn binary.&quot;</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">exe</span>
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>puts_columns (utils.rb)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File utils.rb, line 125</span>
+<span class="ruby-keyword kw">def</span> <span class="ruby-identifier">puts_columns</span> <span class="ruby-identifier">items</span>, <span class="ruby-identifier">cols</span> = <span class="ruby-value">4</span>
+  <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">items</span>.<span class="ruby-identifier">empty?</span>
+
+  <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">$stdout</span>.<span class="ruby-identifier">tty?</span>
+    <span class="ruby-comment cmt"># determine the best width to display for different console sizes</span>
+    <span class="ruby-identifier">console_width</span> = <span class="ruby-value">`/bin/stty size`</span>.<span class="ruby-identifier">chomp</span>.<span class="ruby-identifier">split</span>(<span class="ruby-value str">&quot; &quot;</span>).<span class="ruby-identifier">last</span>.<span class="ruby-identifier">to_i</span>
+    <span class="ruby-identifier">console_width</span> = <span class="ruby-value">80</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">console_width</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-value">0</span>
+    <span class="ruby-identifier">longest</span> = <span class="ruby-identifier">items</span>.<span class="ruby-identifier">sort_by</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">item</span><span class="ruby-operator">|</span> <span class="ruby-identifier">item</span>.<span class="ruby-identifier">length</span> }.<span class="ruby-identifier">last</span>
+    <span class="ruby-identifier">optimal_col_width</span> = (<span class="ruby-identifier">console_width</span>.<span class="ruby-identifier">to_f</span> <span class="ruby-operator">/</span> (<span class="ruby-identifier">longest</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">+</span> <span class="ruby-value">2</span>).<span class="ruby-identifier">to_f</span>).<span class="ruby-identifier">floor</span>
+    <span class="ruby-identifier">cols</span> = <span class="ruby-identifier">optimal_col_width</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">optimal_col_width</span> <span class="ruby-operator">:</span> <span class="ruby-value">1</span>
+
+    <span class="ruby-constant">IO</span>.<span class="ruby-identifier">popen</span>(<span class="ruby-node">&quot;/usr/bin/pr -#{cols} -t -w#{console_width}&quot;</span>, <span class="ruby-value str">&quot;w&quot;</span>){<span class="ruby-operator">|</span><span class="ruby-identifier">io</span><span class="ruby-operator">|</span> <span class="ruby-identifier">io</span>.<span class="ruby-identifier">puts</span>(<span class="ruby-identifier">items</span>) }
+  <span class="ruby-keyword kw">else</span>
+    <span class="ruby-identifier">puts</span> <span class="ruby-operator">*</span><span class="ruby-identifier">items</span>
+  <span class="ruby-keyword kw">end</span>
+<span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>
