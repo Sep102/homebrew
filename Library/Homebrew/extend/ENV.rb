@@ -26,8 +26,14 @@ module HomebrewEnvExtension
       cflags = ['-O4'] # link time optimisation baby!
     else
       # If these aren't set, many formulae fail to build
-      self['CC'] = '/usr/bin/cc'
-      self['CXX'] = '/usr/bin/c++'
+      cc_path = `which cc`.chomp
+      cc_path = '/usr/bin/cc' if cc_path.to_s.empty?
+
+      cxx_path = `which c++`.chomp
+      cxx_path = '/usr/bin/c++' if cxx_path.to_s.empty?
+
+      self['CC'] = cc_path
+      self['CXX'] = cxx_path
       cflags = ['-O3']
     end
 
@@ -104,8 +110,14 @@ module HomebrewEnvExtension
   end
 
   def gcc_4_0_1
-    self['CC'] = self['LD'] = '/usr/bin/gcc-4.0'
-    self['CXX'] = '/usr/bin/g++-4.0'
+    cc_path = `which gcc-4.0`.chomp
+    cc_path = '/usr/bin/gcc-4.0' if cc_path.to_s.empty?
+
+    cxx_path = `which g++-4.0`.chomp
+    cxx_path = '/usr/bin/g++-4.0' if cxx_path.to_s.empty?
+
+    self['CC'] = self['LD'] = cc_path
+    self['CXX'] = cxx_path
     self.O3
     remove_from_cflags '-march=core2'
     remove_from_cflags %r{-msse4(\.\d)?}
@@ -114,9 +126,15 @@ module HomebrewEnvExtension
 
   def gcc_4_2
     # Sometimes you want to downgrade from LLVM to GCC 4.2
-    self['CC']="/usr/bin/gcc-4.2"
-    self['CXX']="/usr/bin/g++-4.2"
-    self['LD']=self['CC']
+    cc_path = `which gcc-4.2`.chomp
+    cc_path = '/usr/bin/gcc-4.2' if cc_path.to_s.empty?
+
+    cxx_path = `which g++-4.2`.chomp
+    cxx_path = '/usr/bin/g++-4.2' if cxx_path.to_s.empty?
+
+    self['CC'] = cc_path
+    self['CXX'] = cxx_path
+    self['LD'] = self['CC']
     self.O3
   end
 
