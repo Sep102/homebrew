@@ -12,7 +12,7 @@ class AquaLess < Formula
   end
 
   def install
-    system "xcodebuild", "-sdk", "macosx10.5", "SYMROOT=build"
+    system "xcodebuild", "SDKROOT=", "SYMROOT=build"
 
     bin.install "build/Release/aless"
     prefix.install "build/Release/AquaLess.app"
