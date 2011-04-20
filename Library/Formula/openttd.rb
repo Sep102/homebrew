@@ -10,9 +10,9 @@ class Openttd < Formula
   depends_on 'xz'
 
   def install
-    system "./configure", "--without-application-bundle", "--prefix-dir=#{prefix}"
-    system "make install"
-    bin.install "bin/openttd"
+    system "./configure", "--prefix-dir=#{prefix}"
+    system "make bundle"
+    prefix.install 'bundle/OpenTTD.app'
   end
 
   def caveats; <<-EOS.undent
