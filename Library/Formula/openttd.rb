@@ -12,21 +12,23 @@ class Openttd < Formula
   def install
     system "./configure", "--prefix-dir=#{prefix}"
     system "make bundle"
+
+    def install_asset(url)
+      ohai "Downloading asset: #{url}"
+      curl url, '-O'
+
+      file = File.basename url
+      system '/usr/bin/unzip', '-qq', file
+      rm file
+    end
     
-    ohai 'Downloading freeware data packs (OpenGFX, OpenMSX, OpenSFX).'
     cd 'bundle/OpenTTD.app/Contents/Resources' do
       cd 'data' do
-        curl 'http://bundles.openttdcoop.org/opengfx/releases/0.3.3/opengfx-0.3.3.zip',
-             'http://bundles.openttdcoop.org/opensfx/releases/0.2.3/opensfx-0.2.3.zip',
-             '-OO'
-
-        system 'for zip in open*.zip; do unzip $zip; rm $zip; done'
+        install_asset 'http://bundles.openttdcoop.org/opengfx/releases/0.3.3/opengfx-0.3.3.zip'
+        install_asset 'http://bundles.openttdcoop.org/opensfx/releases/0.2.3/opensfx-0.2.3.zip'
       end
       cd 'gm' do
-        curl 'http://bundles.openttdcoop.org/openmsx/releases/0.3.1/openmsx-0.3.1.zip',
-             '-O'
-
-        system 'for zip in open*.zip; do unzip $zip; rm $zip; done'
+        install_asset 'http://bundles.openttdcoop.org/openmsx/releases/0.3.1/openmsx-0.3.1.zip'
       end
     end
 
