@@ -33,7 +33,12 @@ class Anacron < Formula
     system 'make install'
 
     (prefix+'com.anacron.anacron.plist').write startup_plist
-    ln_s (prefix+'var/spool'), var
+
+    mkdir_p var+'spool'
+    ln_s prefix+'var/spool/anacron', var+'spool'
+
+    mkdir prefix+'etc'
+    ln_s etc+'anacrontab', prefix+'etc/anacrontab'
   end
 
   def caveats; <<-EOS.undent
