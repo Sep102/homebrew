@@ -13,7 +13,7 @@ class Xmlto < Formula
     getopt = Formula.factory "gnu-getopt"
 
     unless File.exist? "/private/etc/xml/catalog"
-      opoo "You must to register docbook"
+      opoo "You must register docbook to install xmlto"
       puts docbook.caveats
       exit 99
     end
